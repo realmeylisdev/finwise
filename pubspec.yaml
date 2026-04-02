@@ -1,0 +1,92 @@
+name: finwise
+description: "Personal Finance Management App"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State Management
+  bloc: ^9.0.0
+  flutter_bloc: ^9.1.1
+  bloc_concurrency: ^0.3.0
+  hydrated_bloc: ^11.0.0
+
+  # Dependency Injection
+  get_it: ^9.0.5
+  injectable: ^2.5.0
+
+  # Navigation
+  go_router: ^17.1.0
+
+  # Functional Programming (Either — Left/Right)
+  fpdart: ^1.1.0
+
+  # Models & Equality
+  equatable: ^2.0.7
+  freezed_annotation: ^3.1.0
+  json_annotation: ^4.9.0
+
+  # Form Validation
+  formz: ^0.8.0
+
+  # Database
+  drift: ^2.22.1
+  sqlite3_flutter_libs: ^0.6.0+eol
+  path_provider: ^2.1.5
+  path: ^1.9.1
+
+  # Lightweight Key-Value Storage
+  shared_preferences: ^2.5.3
+
+  # Networking (future)
+  dio: ^5.8.0+1
+
+  # UI
+  flutter_screenutil: ^5.9.3
+  fl_chart: ^1.2.0
+  cupertino_icons: ^1.0.8
+  google_fonts: ^8.0.2
+  flutter_svg: ^2.2.0
+  hugeicons: ^1.1.6
+
+  # Localization
+  intl: ^0.20.2
+
+  # Security
+  local_auth: ^3.0.1
+  flutter_secure_storage: ^10.0.0
+
+  # Export & Sharing
+  csv: ^8.0.0
+  share_plus: ^12.0.2
+
+  # Calendar
+  table_calendar: ^3.2.0
+
+  # Utilities
+  uuid: ^4.5.1
+  collection: ^1.19.1
+  logger: ^2.6.1
+  rxdart: ^0.28.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  very_good_analysis: ^10.2.0
+  build_runner: ^2.4.14
+  freezed: ^3.2.5
+  json_serializable: ^6.9.5
+  injectable_generator: ^2.6.2
+  drift_dev: ^2.22.1
+  bloc_test: ^10.0.0
+  mocktail: ^1.0.4
+
+flutter:
+  uses-material-design: true
