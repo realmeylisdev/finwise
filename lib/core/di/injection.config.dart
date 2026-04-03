@@ -150,6 +150,7 @@ import '../../features/onboarding_checklist/domain/usecases/get_checklist_usecas
     as _i145;
 import '../../features/onboarding_checklist/presentation/bloc/checklist_bloc.dart'
     as _i641;
+import '../../features/paywall/presentation/bloc/paywall_bloc.dart' as _i219;
 import '../../features/profiles/data/datasources/profile_local_datasource.dart'
     as _i544;
 import '../../features/profiles/data/repositories/profile_repository_impl.dart'
@@ -250,6 +251,8 @@ import '../database/daos/transaction_splits_dao.dart' as _i658;
 import '../database/daos/transactions_dao.dart' as _i76;
 import '../database/daos/user_stats_dao.dart' as _i608;
 import '../services/currency_service.dart' as _i31;
+import '../services/feature_gate.dart' as _i918;
+import '../services/subscription_service.dart' as _i833;
 import 'register_module.dart' as _i291;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -274,6 +277,7 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i982.AppDatabase>(() => registerModule.database);
     gh.singleton<_i31.CurrencyService>(() => _i31.CurrencyService());
+    gh.singleton<_i833.SubscriptionService>(() => _i833.SubscriptionService());
     gh.singleton<_i544.ProfileLocalDatasource>(
       () => _i544.ProfileLocalDatasource(),
     );
@@ -377,6 +381,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i515.InvestmentHistoryDao>(),
       ),
     );
+    gh.singleton<_i918.FeatureGate>(
+      () => _i918.FeatureGate(gh<_i833.SubscriptionService>()),
+    );
     gh.factory<_i555.SavingsGoalRepository>(
       () => _i32.SavingsGoalRepositoryImpl(
         gh<_i680.SavingsGoalLocalDatasource>(),
@@ -384,6 +391,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i630.ProfilesBloc>(
       () => _i630.ProfilesBloc(repository: gh<_i428.ProfileRepository>()),
+    );
+    gh.factory<_i219.PaywallBloc>(
+      () => _i219.PaywallBloc(
+        subscriptionService: gh<_i833.SubscriptionService>(),
+      ),
     );
     gh.factory<_i140.AchievementLocalDatasource>(
       () => _i140.AchievementLocalDatasource(

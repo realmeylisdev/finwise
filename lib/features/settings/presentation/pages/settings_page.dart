@@ -1,8 +1,13 @@
+import 'package:finwise/core/di/injection.dart';
 import 'package:finwise/core/navigation/app_routes.dart';
+import 'package:finwise/core/services/subscription_service.dart';
+import 'package:finwise/core/theme/app_colors.dart';
 import 'package:finwise/core/theme/app_dimensions.dart';
+import 'package:finwise/features/paywall/presentation/widgets/premium_badge.dart';
 import 'package:finwise/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:finwise/shared/widgets/app_icon.dart';
 
@@ -321,6 +326,11 @@ class SettingsPage extends StatelessWidget {
               ),
               SizedBox(height: AppDimensions.paddingM),
 
+              // Premium
+              _SectionHeader(title: 'Premium'),
+              _SubscriptionCard(),
+              SizedBox(height: AppDimensions.paddingM),
+
               // About
               _SectionHeader(title: 'About'),
               Card(
@@ -400,6 +410,66 @@ class _SectionHeader extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
       ),
+    );
+  }
+}
+
+class _SubscriptionCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final service = getIt<SubscriptionService>();
+
+    return ListenableBuilder(
+      listenable: service,
+      builder: (context, _) {
+        final tier = service.currentTier;
+        final isFree = tier == SubscriptionTier.free;
+
+        return Card(
+          child: Column(
+            children: [
+              ListTile(
+                leading: Icon(
+                  Icons.workspace_premium_rounded,
+                  color: AppColors.primary,
+                  size: 24.w,
+                ),
+                title: const Text('Subscription'),
+                subtitle: Text(
+                  isFree ? 'Free plan' : 'Manage your plan',
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (!isFree) ...[
+                      PremiumBadge(tier: tier, small: true),
+                      SizedBox(width: 8.w),
+                    ],
+                    const Icon(Icons.chevron_right),
+                  ],
+                ),
+                onTap: () =>
+                    context.push(AppRoutes.manageSubscription),
+              ),
+              if (isFree) ...[
+                const Divider(height: 1),
+                ListTile(
+                  leading: const AppIcon(
+                    icon: HugeIcons.strokeRoundedStars,
+                    color: Colors.amber,
+                  ),
+                  title: const Text('Upgrade to Premium'),
+                  subtitle:
+                      const Text('Unlock all features'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () =>
+                      context.push(AppRoutes.paywall),
+                ),
+              ],
+            ],
+          ),
+        );
+      },
     );
   }
 }

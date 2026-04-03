@@ -63,6 +63,11 @@ abstract class AppRoutes {
   static const String profileForm = '/profiles/new';
   static const String sharedBudgets = '/shared-budgets';
 
+  // Paywall / Premium
+  static const String paywall = '/paywall';
+  static const String premiumFeatures = '/premium-features';
+  static const String manageSubscription = '/manage-subscription';
+
   // Settings form sub-routes
   static const String settingsCategoryForm = '/settings/categories/new';
   static const String settingsAccountForm = '/settings/accounts/new';

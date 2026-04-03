@@ -33,6 +33,9 @@ import 'package:finwise/features/profiles/domain/entities/profile_entity.dart';
 import 'package:finwise/features/profiles/presentation/pages/profile_form_page.dart';
 import 'package:finwise/features/profiles/presentation/pages/profiles_page.dart';
 import 'package:finwise/features/shared_budgets/presentation/pages/shared_budgets_page.dart';
+import 'package:finwise/features/paywall/presentation/pages/paywall_page.dart';
+import 'package:finwise/features/paywall/presentation/pages/premium_features_page.dart';
+import 'package:finwise/features/paywall/presentation/pages/manage_subscription_page.dart';
 import 'package:finwise/features/ai_insights/presentation/pages/ai_insights_page.dart';
 import 'package:finwise/features/wellness_score/presentation/pages/wellness_score_page.dart';
 import 'package:finwise/features/budget/presentation/pages/budget_detail_page.dart';
@@ -215,6 +218,26 @@ class AppRouter {
         name: 'ai-insights',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const AiInsightsPage(),
+      ),
+
+      // Paywall / Premium
+      GoRoute(
+        path: AppRoutes.paywall,
+        name: 'paywall',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const PaywallPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.premiumFeatures,
+        name: 'premium-features',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const PremiumFeaturesPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.manageSubscription,
+        name: 'manage-subscription',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const ManageSubscriptionPage(),
       ),
 
       // Family & Sharing
