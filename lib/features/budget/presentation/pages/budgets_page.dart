@@ -4,6 +4,7 @@ import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/features/budget/presentation/bloc/budget_bloc.dart';
 import 'package:finwise/features/budget/presentation/widgets/budget_progress_bar.dart';
 import 'package:finwise/features/category/presentation/widgets/category_icon_widget.dart';
+import 'package:finwise/shared/widgets/privacy_amount.dart';
 import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,13 +53,15 @@ class BudgetsPage extends StatelessWidget {
                                     .textTheme
                                     .bodyMedium,
                               ),
-                              Text(
-                                '\$${state.totalSpent.toStringAsFixed(2)}'
-                                ' / \$${state.totalBudgeted.toStringAsFixed(2)}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(fontWeight: FontWeight.w600),
+                              PrivacyAmount(
+                                child: Text(
+                                  '\$${state.totalSpent.toStringAsFixed(2)}'
+                                  ' / \$${state.totalBudgeted.toStringAsFixed(2)}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium
+                                      ?.copyWith(fontWeight: FontWeight.w600),
+                                ),
                               ),
                             ],
                           ),
@@ -136,15 +139,17 @@ class BudgetsPage extends StatelessWidget {
                                                       .textTheme
                                                       .titleMedium,
                                                 ),
-                                                Text(
-                                                  '\$${b.spent.toStringAsFixed(2)}'
-                                                  ' / \$${b.budget.amount.toStringAsFixed(2)}',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall
-                                                      ?.copyWith(
-                                                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                                                      ),
+                                                PrivacyAmount(
+                                                  child: Text(
+                                                    '\$${b.spent.toStringAsFixed(2)}'
+                                                    ' / \$${b.budget.amount.toStringAsFixed(2)}',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall
+                                                        ?.copyWith(
+                                                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                                        ),
+                                                  ),
                                                 ),
                                               ],
                                             ),

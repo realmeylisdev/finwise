@@ -3,6 +3,7 @@ import 'package:finwise/core/theme/app_colors.dart';
 import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/features/account/domain/entities/account_entity.dart';
 import 'package:finwise/features/account/presentation/bloc/account_bloc.dart';
+import 'package:finwise/shared/widgets/privacy_amount.dart';
 import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -80,14 +81,16 @@ class _AccountCard extends StatelessWidget {
         ),
         title: Text(account.name),
         subtitle: Text(account.typeLabel),
-        trailing: Text(
-          '\$${account.balance.toStringAsFixed(2)}',
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: account.balance >= 0
-                    ? AppColors.income
-                    : AppColors.expense,
-                fontWeight: FontWeight.w600,
-              ),
+        trailing: PrivacyAmount(
+          child: Text(
+            '\$${account.balance.toStringAsFixed(2)}',
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: account.balance >= 0
+                      ? AppColors.income
+                      : AppColors.expense,
+                  fontWeight: FontWeight.w600,
+                ),
+          ),
         ),
       ),
     );

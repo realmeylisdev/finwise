@@ -4,6 +4,7 @@ import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/core/utils/date_formatter.dart';
 import 'package:finwise/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:finwise/features/transaction/presentation/widgets/transaction_list_item.dart';
+import 'package:finwise/shared/widgets/privacy_amount.dart';
 import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -92,15 +93,17 @@ class TransactionsPage extends StatelessWidget {
                                 fontWeight: FontWeight.w600,
                               ),
                         ),
-                        Text(
-                          '${dayTotal >= 0 ? '+' : ''}'
-                          '\$${dayTotal.abs().toStringAsFixed(2)}',
-                          style:
-                              Theme.of(context).textTheme.titleSmall?.copyWith(
-                                    color: dayTotal >= 0
-                                        ? AppColors.income
-                                        : AppColors.expense,
-                                  ),
+                        PrivacyAmount(
+                          child: Text(
+                            '${dayTotal >= 0 ? '+' : ''}'
+                            '\$${dayTotal.abs().toStringAsFixed(2)}',
+                            style:
+                                Theme.of(context).textTheme.titleSmall?.copyWith(
+                                      color: dayTotal >= 0
+                                          ? AppColors.income
+                                          : AppColors.expense,
+                                    ),
+                          ),
                         ),
                       ],
                     ),

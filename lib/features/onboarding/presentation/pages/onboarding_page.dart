@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
@@ -88,10 +89,13 @@ class _WelcomeStep extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Spacer(),
-        Icon(
-          Icons.account_balance_wallet,
-          size: 80.w,
-          color: AppColors.primary,
+        SizedBox(
+          width: 120.w,
+          height: 120.w,
+          child: Lottie.asset(
+            'assets/animations/onboarding_welcome.json',
+            repeat: true,
+          ),
         ),
         SizedBox(height: AppDimensions.paddingL),
         Text(

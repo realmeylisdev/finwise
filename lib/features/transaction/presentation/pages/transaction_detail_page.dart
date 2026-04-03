@@ -4,6 +4,7 @@ import 'package:finwise/core/utils/date_formatter.dart';
 import 'package:finwise/features/category/presentation/widgets/category_icon_widget.dart';
 import 'package:finwise/features/transaction/domain/entities/transaction_entity.dart';
 import 'package:finwise/features/transaction/presentation/bloc/transaction_bloc.dart';
+import 'package:finwise/shared/widgets/privacy_amount.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -83,13 +84,15 @@ class TransactionDetailPage extends StatelessWidget {
                     children: [
                       _TypeBadge(type: transaction.type),
                       SizedBox(height: AppDimensions.paddingM),
-                      Text(
-                        '$prefix\$${transaction.amount.toStringAsFixed(2)}',
-                        style:
-                            Theme.of(context).textTheme.headlineLarge?.copyWith(
-                                  color: typeColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                      PrivacyAmount(
+                        child: Text(
+                          '$prefix\$${transaction.amount.toStringAsFixed(2)}',
+                          style:
+                              Theme.of(context).textTheme.headlineLarge?.copyWith(
+                                    color: typeColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
                       ),
                       SizedBox(height: AppDimensions.paddingXS),
                       Text(

@@ -278,9 +278,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i982.AppDatabase>(() => registerModule.database);
     gh.singleton<_i31.CurrencyService>(() => _i31.CurrencyService());
     gh.singleton<_i833.SubscriptionService>(() => _i833.SubscriptionService());
-    gh.singleton<_i544.ProfileLocalDatasource>(
-      () => _i544.ProfileLocalDatasource(),
-    );
     gh.singleton<_i585.SettingsBloc>(() => _i585.SettingsBloc());
     gh.singleton<_i750.SharedBudgetLocalDatasource>(
       () => _i750.SharedBudgetLocalDatasource(),
@@ -354,9 +351,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i212.BillReminderLocalDatasource>(
       () => _i212.BillReminderLocalDatasource(gh<_i855.BillRemindersDao>()),
     );
-    gh.factory<_i428.ProfileRepository>(
-      () => _i275.ProfileRepositoryImpl(gh<_i544.ProfileLocalDatasource>()),
-    );
     gh.factory<_i224.NetWorthLocalDatasource>(
       () => _i224.NetWorthLocalDatasource(
         gh<_i662.AssetsDao>(),
@@ -381,6 +375,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i515.InvestmentHistoryDao>(),
       ),
     );
+    gh.factory<_i544.ProfileLocalDatasource>(
+      () => _i544.ProfileLocalDatasource(gh<_i526.ProfilesDao>()),
+    );
     gh.singleton<_i918.FeatureGate>(
       () => _i918.FeatureGate(gh<_i833.SubscriptionService>()),
     );
@@ -388,9 +385,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i32.SavingsGoalRepositoryImpl(
         gh<_i680.SavingsGoalLocalDatasource>(),
       ),
-    );
-    gh.factory<_i630.ProfilesBloc>(
-      () => _i630.ProfilesBloc(repository: gh<_i428.ProfileRepository>()),
     );
     gh.factory<_i219.PaywallBloc>(
       () => _i219.PaywallBloc(
@@ -528,6 +522,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1012.CategoryRuleLocalDatasource>(),
       ),
     );
+    gh.factory<_i428.ProfileRepository>(
+      () => _i275.ProfileRepositoryImpl(gh<_i544.ProfileLocalDatasource>()),
+    );
     gh.factory<_i104.SharedBudgetsBloc>(
       () => _i104.SharedBudgetsBloc(
         repository: gh<_i146.SharedBudgetRepository>(),
@@ -562,6 +559,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i794.GetTransactionsUseCase>(
       () => _i794.GetTransactionsUseCase(gh<_i1022.TransactionRepository>()),
+    );
+    gh.factory<_i630.ProfilesBloc>(
+      () => _i630.ProfilesBloc(repository: gh<_i428.ProfileRepository>()),
     );
     gh.factory<_i1041.NotificationsBloc>(
       () => _i1041.NotificationsBloc(

@@ -1,5 +1,6 @@
 import 'package:finwise/core/theme/app_colors.dart';
 import 'package:finwise/core/theme/app_dimensions.dart';
+import 'package:finwise/shared/widgets/privacy_amount.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -45,12 +46,14 @@ class PortfolioSummaryCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: 4.h),
-          Text(
-            currencyFormat.format(totalValue),
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 32.sp,
-              fontWeight: FontWeight.bold,
+          PrivacyAmount(
+            child: Text(
+              currencyFormat.format(totalValue),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 32.sp,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           SizedBox(height: AppDimensions.paddingM),
@@ -76,12 +79,14 @@ class PortfolioSummaryCard extends StatelessWidget {
                       size: 16.w,
                     ),
                     SizedBox(width: 4.w),
-                    Text(
-                      '$gainSign${currencyFormat.format(gainLoss)}',
-                      style: TextStyle(
-                        color: gainColor,
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w600,
+                    PrivacyAmount(
+                      child: Text(
+                        '$gainSign${currencyFormat.format(gainLoss)}',
+                        style: TextStyle(
+                          color: gainColor,
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],

@@ -3,6 +3,7 @@ import 'package:finwise/core/theme/app_colors.dart';
 import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/features/debt_payoff/domain/entities/debt_entity.dart';
 import 'package:finwise/features/debt_payoff/presentation/bloc/debt_payoff_bloc.dart';
+import 'package:finwise/shared/widgets/privacy_amount.dart';
 import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -125,12 +126,14 @@ class _TotalDebtCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: 4.h),
-          Text(
-            currencyFormat.format(totalDebt),
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 32.sp,
-              fontWeight: FontWeight.bold,
+          PrivacyAmount(
+            child: Text(
+              currencyFormat.format(totalDebt),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 32.sp,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           SizedBox(height: AppDimensions.paddingS),
@@ -256,14 +259,16 @@ class _DebtCard extends StatelessWidget {
                           ),
                           SizedBox(width: 6.w),
                           // Minimum payment
-                          Text(
-                            'Min: ${currencyFormat.format(debt.minimumPayment)}',
-                            style:
-                                Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
-                                    ),
+                          PrivacyAmount(
+                            child: Text(
+                              'Min: ${currencyFormat.format(debt.minimumPayment)}',
+                              style:
+                                  Theme.of(context).textTheme.bodySmall?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurfaceVariant,
+                                      ),
+                            ),
                           ),
                         ],
                       ),
@@ -272,12 +277,14 @@ class _DebtCard extends StatelessWidget {
                 ),
                 SizedBox(width: 8.w),
                 // Balance
-                Text(
-                  currencyFormat.format(debt.balance),
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.expense,
-                      ),
+                PrivacyAmount(
+                  child: Text(
+                    currencyFormat.format(debt.balance),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.expense,
+                        ),
+                  ),
                 ),
               ],
             ),

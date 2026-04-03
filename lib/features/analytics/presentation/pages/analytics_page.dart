@@ -3,6 +3,7 @@ import 'package:finwise/core/theme/app_colors.dart';
 import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/features/analytics/presentation/bloc/analytics_bloc.dart';
 import 'package:finwise/features/category/presentation/widgets/category_icon_widget.dart';
+import 'package:finwise/shared/widgets/privacy_amount.dart';
 import 'package:finwise/shared/widgets/skeleton_chart.dart';
 import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -183,12 +184,14 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                           Expanded(
                             child: Text(cs.categoryName),
                           ),
-                          Text(
-                            '\$${cs.amount.toStringAsFixed(2)}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall
-                                ?.copyWith(fontWeight: FontWeight.w600),
+                          PrivacyAmount(
+                            child: Text(
+                              '\$${cs.amount.toStringAsFixed(2)}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall
+                                  ?.copyWith(fontWeight: FontWeight.w600),
+                            ),
                           ),
                           SizedBox(width: AppDimensions.paddingS),
                           Text(
@@ -319,12 +322,14 @@ class _SummaryCard extends StatelessWidget {
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                   ),
-                  Text(
-                    '\$${amount.abs().toStringAsFixed(2)}',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: color,
-                        ),
+                  PrivacyAmount(
+                    child: Text(
+                      '\$${amount.abs().toStringAsFixed(2)}',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: color,
+                          ),
+                    ),
                   ),
                 ],
               ),
@@ -437,11 +442,13 @@ class _CategoryPieChart extends StatelessWidget {
                   ),
             ),
             SizedBox(height: 2.h),
-            Text(
-              '\$${total.toStringAsFixed(0)}',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
+            PrivacyAmount(
+              child: Text(
+                '\$${total.toStringAsFixed(0)}',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+              ),
             ),
           ],
         ),

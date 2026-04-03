@@ -3,6 +3,7 @@ import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/core/utils/date_formatter.dart';
 import 'package:finwise/features/category/presentation/widgets/category_icon_widget.dart';
 import 'package:finwise/features/transaction/domain/entities/transaction_entity.dart';
+import 'package:finwise/shared/widgets/privacy_amount.dart';
 import 'package:flutter/material.dart';
 
 class TransactionListItem extends StatelessWidget {
@@ -63,12 +64,14 @@ class TransactionListItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text(
-            '$prefix\$${transaction.amount.toStringAsFixed(2)}',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: amountColor,
-                  fontWeight: FontWeight.w600,
-                ),
+          PrivacyAmount(
+            child: Text(
+              '$prefix\$${transaction.amount.toStringAsFixed(2)}',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: amountColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
           ),
           Text(
             DateFormatter.relative(transaction.date),

@@ -1,8 +1,10 @@
 import 'package:finwise/core/di/injection.dart';
 import 'package:finwise/core/navigation/app_routes.dart';
+import 'package:finwise/core/services/feature_gate.dart';
 import 'package:finwise/core/services/subscription_service.dart';
 import 'package:finwise/core/theme/app_colors.dart';
 import 'package:finwise/core/theme/app_dimensions.dart';
+import 'package:finwise/features/paywall/presentation/widgets/feature_gate_wrapper.dart';
 import 'package:finwise/features/paywall/presentation/widgets/premium_badge.dart';
 import 'package:finwise/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
@@ -106,69 +108,84 @@ class SettingsPage extends StatelessWidget {
                           .push(AppRoutes.settingsCategoryRules),
                     ),
                     const Divider(height: 1),
-                    ListTile(
-                      leading: const AppIcon(
-                        icon: HugeIcons.strokeRoundedChartLineData02,
-                        color: Colors.green,
+                    FeatureGateWrapper(
+                      feature: Feature.netWorth,
+                      child: ListTile(
+                        leading: const AppIcon(
+                          icon: HugeIcons.strokeRoundedChartLineData02,
+                          color: Colors.green,
+                        ),
+                        title: const Text('Net Worth'),
+                        subtitle:
+                            const Text('Track assets & liabilities'),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () =>
+                            context.push(AppRoutes.netWorth),
                       ),
-                      title: const Text('Net Worth'),
-                      subtitle:
-                          const Text('Track assets & liabilities'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () =>
-                          context.push(AppRoutes.netWorth),
                     ),
                     const Divider(height: 1),
-                    ListTile(
-                      leading: const AppIcon(
-                        icon: HugeIcons.strokeRoundedChart,
-                        color: Colors.teal,
+                    FeatureGateWrapper(
+                      feature: Feature.investments,
+                      child: ListTile(
+                        leading: const AppIcon(
+                          icon: HugeIcons.strokeRoundedChart,
+                          color: Colors.teal,
+                        ),
+                        title: const Text('Investments'),
+                        subtitle:
+                            const Text('Portfolio & performance tracking'),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () =>
+                            context.push(AppRoutes.investments),
                       ),
-                      title: const Text('Investments'),
-                      subtitle:
-                          const Text('Portfolio & performance tracking'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () =>
-                          context.push(AppRoutes.investments),
                     ),
                     const Divider(height: 1),
-                    ListTile(
-                      leading: const AppIcon(
-                        icon: HugeIcons.strokeRoundedRepeat,
-                        color: Colors.indigo,
+                    FeatureGateWrapper(
+                      feature: Feature.subscriptionTracking,
+                      child: ListTile(
+                        leading: const AppIcon(
+                          icon: HugeIcons.strokeRoundedRepeat,
+                          color: Colors.indigo,
+                        ),
+                        title: const Text('Subscriptions'),
+                        subtitle:
+                            const Text('Track recurring subscriptions'),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () =>
+                            context.push(AppRoutes.subscriptions),
                       ),
-                      title: const Text('Subscriptions'),
-                      subtitle:
-                          const Text('Track recurring subscriptions'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () =>
-                          context.push(AppRoutes.subscriptions),
                     ),
                     const Divider(height: 1),
-                    ListTile(
-                      leading: const AppIcon(
-                        icon: HugeIcons.strokeRoundedCreditCard,
-                        color: Colors.red,
+                    FeatureGateWrapper(
+                      feature: Feature.debtPayoff,
+                      child: ListTile(
+                        leading: const AppIcon(
+                          icon: HugeIcons.strokeRoundedCreditCard,
+                          color: Colors.red,
+                        ),
+                        title: const Text('Debt Payoff'),
+                        subtitle:
+                            const Text('Snowball & avalanche planner'),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () =>
+                            context.push(AppRoutes.debts),
                       ),
-                      title: const Text('Debt Payoff'),
-                      subtitle:
-                          const Text('Snowball & avalanche planner'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () =>
-                          context.push(AppRoutes.debts),
                     ),
                     const Divider(height: 1),
-                    ListTile(
-                      leading: const AppIcon(
-                        icon: HugeIcons.strokeRoundedFileAttachment,
-                        color: Colors.deepOrange,
+                    FeatureGateWrapper(
+                      feature: Feature.reports,
+                      child: ListTile(
+                        leading: const AppIcon(
+                          icon: HugeIcons.strokeRoundedFileAttachment,
+                          color: Colors.deepOrange,
+                        ),
+                        title: const Text('Reports'),
+                        subtitle:
+                            const Text('Monthly & annual PDF reports'),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () =>
+                            context.push(AppRoutes.reports),
                       ),
-                      title: const Text('Reports'),
-                      subtitle:
-                          const Text('Monthly & annual PDF reports'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () =>
-                          context.push(AppRoutes.reports),
                     ),
                   ],
                 ),
@@ -206,17 +223,20 @@ class SettingsPage extends StatelessWidget {
                           context.push(AppRoutes.recurringPatterns),
                     ),
                     const Divider(height: 1),
-                    ListTile(
-                      leading: const AppIcon(
-                        icon: HugeIcons.strokeRoundedChartLineData01,
-                        color: Colors.teal,
+                    FeatureGateWrapper(
+                      feature: Feature.cashFlow,
+                      child: ListTile(
+                        leading: const AppIcon(
+                          icon: HugeIcons.strokeRoundedChartLineData01,
+                          color: Colors.teal,
+                        ),
+                        title: const Text('Cash Flow Forecast'),
+                        subtitle:
+                            const Text('30-day balance projection'),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () =>
+                            context.push(AppRoutes.cashFlow),
                       ),
-                      title: const Text('Cash Flow Forecast'),
-                      subtitle:
-                          const Text('30-day balance projection'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () =>
-                          context.push(AppRoutes.cashFlow),
                     ),
                     const Divider(height: 1),
                     ListTile(
@@ -232,17 +252,20 @@ class SettingsPage extends StatelessWidget {
                           context.push(AppRoutes.wellnessScore),
                     ),
                     const Divider(height: 1),
-                    ListTile(
-                      leading: const AppIcon(
-                        icon: HugeIcons.strokeRoundedIdea01,
-                        color: Colors.deepPurpleAccent,
+                    FeatureGateWrapper(
+                      feature: Feature.aiInsights,
+                      child: ListTile(
+                        leading: const AppIcon(
+                          icon: HugeIcons.strokeRoundedIdea01,
+                          color: Colors.deepPurpleAccent,
+                        ),
+                        title: const Text('Smart Insights'),
+                        subtitle:
+                            const Text('AI-powered spending analysis'),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () =>
+                            context.push(AppRoutes.aiInsights),
                       ),
-                      title: const Text('Smart Insights'),
-                      subtitle:
-                          const Text('AI-powered spending analysis'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () =>
-                          context.push(AppRoutes.aiInsights),
                     ),
                   ],
                 ),
@@ -267,17 +290,20 @@ class SettingsPage extends StatelessWidget {
                           context.push(AppRoutes.profiles),
                     ),
                     const Divider(height: 1),
-                    ListTile(
-                      leading: const AppIcon(
-                        icon: HugeIcons.strokeRoundedShare01,
-                        color: Colors.orange,
+                    FeatureGateWrapper(
+                      feature: Feature.sharedBudgets,
+                      child: ListTile(
+                        leading: const AppIcon(
+                          icon: HugeIcons.strokeRoundedShare01,
+                          color: Colors.orange,
+                        ),
+                        title: const Text('Shared Budgets'),
+                        subtitle:
+                            const Text('Share budgets with family members'),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () =>
+                            context.push(AppRoutes.sharedBudgets),
                       ),
-                      title: const Text('Shared Budgets'),
-                      subtitle:
-                          const Text('Share budgets with family members'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () =>
-                          context.push(AppRoutes.sharedBudgets),
                     ),
                   ],
                 ),

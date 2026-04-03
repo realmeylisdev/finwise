@@ -3,6 +3,7 @@ import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/features/budget/presentation/bloc/budget_bloc.dart';
 import 'package:finwise/features/budget/presentation/widgets/budget_progress_bar.dart';
 import 'package:finwise/features/category/presentation/widgets/category_icon_widget.dart';
+import 'package:finwise/shared/widgets/privacy_amount.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -127,12 +128,14 @@ class _StatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w600,
-            color: color,
+        PrivacyAmount(
+          child: Text(
+            value,
+            style: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
+              color: color,
+            ),
           ),
         ),
         SizedBox(height: 2.h),

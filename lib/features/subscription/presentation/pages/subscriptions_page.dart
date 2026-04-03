@@ -5,6 +5,7 @@ import 'package:finwise/features/subscription/domain/entities/subscription_entit
 import 'package:finwise/features/subscription/presentation/bloc/subscription_bloc.dart';
 import 'package:finwise/features/subscription/presentation/widgets/subscription_cost_summary.dart';
 import 'package:finwise/shared/widgets/pill_tab_bar.dart';
+import 'package:finwise/shared/widgets/privacy_amount.dart';
 import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -265,11 +266,13 @@ class _SubscriptionCard extends StatelessWidget {
                 ),
                 SizedBox(width: 8.w),
                 // Amount
-                Text(
-                  currencyFormat.format(subscription.amount),
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                PrivacyAmount(
+                  child: Text(
+                    currencyFormat.format(subscription.amount),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
                 ),
               ],
             ),

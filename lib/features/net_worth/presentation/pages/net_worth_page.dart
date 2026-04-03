@@ -5,6 +5,7 @@ import 'package:finwise/features/net_worth/domain/entities/asset_entity.dart';
 import 'package:finwise/features/net_worth/domain/entities/liability_entity.dart';
 import 'package:finwise/features/net_worth/presentation/bloc/net_worth_bloc.dart';
 import 'package:finwise/features/net_worth/presentation/widgets/net_worth_chart.dart';
+import 'package:finwise/shared/widgets/privacy_amount.dart';
 import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -248,12 +249,14 @@ class _NetWorthHeader extends StatelessWidget {
               ),
             ),
             SizedBox(height: 4.h),
-            Text(
-              currencyFormat.format(netWorth),
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 32.sp,
-                fontWeight: FontWeight.bold,
+            PrivacyAmount(
+              child: Text(
+                currencyFormat.format(netWorth),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 32.sp,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             SizedBox(height: AppDimensions.paddingM),
@@ -310,12 +313,14 @@ class _SummaryItem extends StatelessWidget {
           ),
         ),
         SizedBox(height: 2.h),
-        Text(
-          value,
-          style: TextStyle(
-            color: valueColor,
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w600,
+        PrivacyAmount(
+          child: Text(
+            value,
+            style: TextStyle(
+              color: valueColor,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ],
@@ -366,12 +371,14 @@ class _AssetTile extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              currencyFormat.format(asset.value),
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 14.sp,
-                color: AppColors.income,
+            PrivacyAmount(
+              child: Text(
+                currencyFormat.format(asset.value),
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14.sp,
+                  color: AppColors.income,
+                ),
               ),
             ),
             PopupMenuButton<String>(
@@ -439,12 +446,14 @@ class _LiabilityTile extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              currencyFormat.format(liability.balance),
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 14.sp,
-                color: AppColors.expense,
+            PrivacyAmount(
+              child: Text(
+                currencyFormat.format(liability.balance),
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14.sp,
+                  color: AppColors.expense,
+                ),
               ),
             ),
             PopupMenuButton<String>(

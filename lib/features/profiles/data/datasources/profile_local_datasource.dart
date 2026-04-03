@@ -1,46 +1,71 @@
+import 'package:drift/drift.dart';
+import 'package:finwise/core/database/app_database.dart';
+import 'package:finwise/core/database/daos/profiles_dao.dart';
 import 'package:finwise/features/profiles/domain/entities/profile_entity.dart';
 import 'package:injectable/injectable.dart';
+import 'package:uuid/uuid.dart';
 
-/// In-memory datasource for profiles.
-///
-/// TODO(batch-4.4): Replace with DAO-backed datasource once [ProfilesDao]
-/// is registered in [AppDatabase] and schema v10 migration is added.
-@singleton
+/// DAO-backed local datasource for profiles.
+@injectable
 class ProfileLocalDatasource {
-  final List<ProfileEntity> _store = [
-    ProfileEntity(
-      id: 'owner-default',
-      name: 'Me',
-      avatarColor: 0xFF6366F1,
-      isOwner: true,
-      createdAt: DateTime.now(),
-    ),
-  ];
+  ProfileLocalDatasource(this._dao);
+
+  final ProfilesDao _dao;
+  static const _uuid = Uuid();
 
   Future<List<ProfileEntity>> getAllProfiles() async {
-    return List.unmodifiable(_store);
+    final rows = await _dao.getAllProfiles();
+    return rows.map(_toEntity).toList();
   }
 
   Future<ProfileEntity?> getOwnerProfile() async {
-    try {
-      return _store.firstWhere((p) => p.isOwner);
-    } catch (_) {
-      return null;
-    }
+    final row = await _dao.getOwnerProfile();
+    return row == null ? null : _toEntity(row);
   }
 
   Future<void> insertProfile(ProfileEntity profile) async {
-    _store.add(profile);
+    final id = profile.id.isEmpty ? _uuid.v4() : profile.id;
+    await _dao.insertProfile(
+      ProfilesCompanion.insert(
+        id: id,
+        name: profile.name,
+        email: profile.email == null
+            ? const Value.absent()
+            : Value(profile.email),
+        avatarColor: Value(profile.avatarColor),
+        isOwner: Value(profile.isOwner),
+        createdAt: profile.createdAt,
+      ),
+    );
   }
 
   Future<void> updateProfile(ProfileEntity profile) async {
-    final index = _store.indexWhere((p) => p.id == profile.id);
-    if (index != -1) {
-      _store[index] = profile;
-    }
+    await _dao.updateProfile(
+      ProfilesCompanion(
+        id: Value(profile.id),
+        name: Value(profile.name),
+        email: profile.email == null
+            ? const Value.absent()
+            : Value(profile.email),
+        avatarColor: Value(profile.avatarColor),
+        isOwner: Value(profile.isOwner),
+        createdAt: Value(profile.createdAt),
+      ),
+    );
   }
 
   Future<void> deleteProfile(String id) async {
-    _store.removeWhere((p) => p.id == id);
+    await _dao.deleteProfile(id);
+  }
+
+  static ProfileEntity _toEntity(ProfileRow row) {
+    return ProfileEntity(
+      id: row.id,
+      name: row.name,
+      email: row.email,
+      avatarColor: row.avatarColor,
+      isOwner: row.isOwner,
+      createdAt: row.createdAt,
+    );
   }
 }

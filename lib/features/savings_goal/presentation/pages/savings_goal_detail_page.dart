@@ -5,6 +5,7 @@ import 'package:finwise/features/category/presentation/widgets/category_icon_wid
 import 'package:finwise/features/savings_goal/domain/entities/savings_goal_entity.dart';
 import 'package:finwise/features/savings_goal/presentation/bloc/savings_goal_bloc.dart';
 import 'package:finwise/shared/widgets/celebration_dialog.dart';
+import 'package:finwise/shared/widgets/privacy_amount.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -245,12 +246,14 @@ class _InfoColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w600,
-            color: color,
+        PrivacyAmount(
+          child: Text(
+            value,
+            style: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
+              color: color,
+            ),
           ),
         ),
         SizedBox(height: 2.h),

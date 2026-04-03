@@ -4,6 +4,7 @@ import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/features/category/presentation/widgets/category_icon_widget.dart';
 import 'package:finwise/features/savings_goal/domain/entities/savings_goal_entity.dart';
 import 'package:finwise/features/savings_goal/presentation/bloc/savings_goal_bloc.dart';
+import 'package:finwise/shared/widgets/privacy_amount.dart';
 import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -152,15 +153,17 @@ class _GoalCard extends StatelessWidget {
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                         SizedBox(height: 2.h),
-                        Text(
-                          '\$${goal.savedAmount.toStringAsFixed(2)}'
-                          ' / \$${goal.targetAmount.toStringAsFixed(2)}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                              ),
+                        PrivacyAmount(
+                          child: Text(
+                            '\$${goal.savedAmount.toStringAsFixed(2)}'
+                            ' / \$${goal.targetAmount.toStringAsFixed(2)}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                ),
+                          ),
                         ),
                       ],
                     ),

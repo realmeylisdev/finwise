@@ -1,5 +1,6 @@
 import 'package:finwise/core/theme/app_colors.dart';
 import 'package:finwise/core/theme/app_dimensions.dart';
+import 'package:finwise/shared/widgets/privacy_amount.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -44,12 +45,14 @@ class SubscriptionCostSummary extends StatelessWidget {
             ),
           ),
           SizedBox(height: 4.h),
-          Text(
-            currencyFormat.format(monthlyCost),
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 32.sp,
-              fontWeight: FontWeight.bold,
+          PrivacyAmount(
+            child: Text(
+              currencyFormat.format(monthlyCost),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 32.sp,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           SizedBox(height: AppDimensions.paddingM),
@@ -66,12 +69,14 @@ class SubscriptionCostSummary extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 2.h),
-                    Text(
-                      currencyFormat.format(yearlyCost),
-                      style: TextStyle(
-                        color: AppColors.budgetWarning,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
+                    PrivacyAmount(
+                      child: Text(
+                        currencyFormat.format(yearlyCost),
+                        style: TextStyle(
+                          color: AppColors.budgetWarning,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],

@@ -5,6 +5,7 @@ import 'package:finwise/features/investments/domain/entities/investment_entity.d
 import 'package:finwise/features/investments/presentation/bloc/investments_bloc.dart';
 import 'package:finwise/features/investments/presentation/widgets/allocation_chart.dart';
 import 'package:finwise/features/investments/presentation/widgets/portfolio_summary_card.dart';
+import 'package:finwise/shared/widgets/privacy_amount.dart';
 import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -213,21 +214,25 @@ class _InvestmentTile extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    currencyFormat.format(investment.currentValue),
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14.sp,
+                  PrivacyAmount(
+                    child: Text(
+                      currencyFormat.format(investment.currentValue),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14.sp,
+                      ),
                     ),
                   ),
                   SizedBox(height: 2.h),
-                  Text(
-                    '$gainSign${currencyFormat.format(investment.gainLoss)}'
-                    ' ($gainSign${investment.gainLossPercent.toStringAsFixed(1)}%)',
-                    style: TextStyle(
-                      color: gainColor,
-                      fontSize: 11.sp,
-                      fontWeight: FontWeight.w500,
+                  PrivacyAmount(
+                    child: Text(
+                      '$gainSign${currencyFormat.format(investment.gainLoss)}'
+                      ' ($gainSign${investment.gainLossPercent.toStringAsFixed(1)}%)',
+                      style: TextStyle(
+                        color: gainColor,
+                        fontSize: 11.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ],

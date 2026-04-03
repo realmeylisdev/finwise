@@ -3,6 +3,7 @@ import 'package:finwise/core/theme/app_colors.dart';
 import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/features/bill_reminder/domain/entities/bill_reminder_entity.dart';
 import 'package:finwise/features/bill_reminder/presentation/bloc/bill_reminder_bloc.dart';
+import 'package:finwise/shared/widgets/privacy_amount.dart';
 import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -138,11 +139,13 @@ class _BillCard extends StatelessWidget {
               ),
             ],
           ),
-          trailing: Text(
-            '\$${bill.amount.toStringAsFixed(2)}',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+          trailing: PrivacyAmount(
+            child: Text(
+              '\$${bill.amount.toStringAsFixed(2)}',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
           ),
         ),
       ),
