@@ -79,6 +79,7 @@ class BudgetLocalDatasource {
       currencyCode: row.currencyCode,
       year: row.year,
       month: row.month,
+      rolloverAmount: row.rolloverAmount,
       createdAt: row.createdAt,
       updatedAt: row.updatedAt,
     );

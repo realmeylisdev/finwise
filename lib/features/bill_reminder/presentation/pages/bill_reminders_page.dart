@@ -3,6 +3,7 @@ import 'package:finwise/core/theme/app_colors.dart';
 import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/features/bill_reminder/domain/entities/bill_reminder_entity.dart';
 import 'package:finwise/features/bill_reminder/presentation/bloc/bill_reminder_bloc.dart';
+import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,7 +22,7 @@ class BillRemindersPage extends StatelessWidget {
       body: BlocBuilder<BillReminderBloc, BillReminderState>(
         builder: (context, state) {
           if (state.status == BillReminderStatus.loading) {
-            return const Center(child: CircularProgressIndicator());
+            return const SkeletonListTileGroup(count: 3);
           }
           if (state.bills.isEmpty) {
             return Center(

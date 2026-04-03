@@ -6,24 +6,28 @@ class SettingsState extends Equatable {
     this.defaultCurrencyCode = 'USD',
     this.isOnboardingComplete = false,
     this.isSecurityEnabled = false,
+    this.isPrivacyModeEnabled = false,
   });
 
   final ThemeMode themeMode;
   final String defaultCurrencyCode;
   final bool isOnboardingComplete;
   final bool isSecurityEnabled;
+  final bool isPrivacyModeEnabled;
 
   SettingsState copyWith({
     ThemeMode? themeMode,
     String? defaultCurrencyCode,
     bool? isOnboardingComplete,
     bool? isSecurityEnabled,
+    bool? isPrivacyModeEnabled,
   }) {
     return SettingsState(
       themeMode: themeMode ?? this.themeMode,
       defaultCurrencyCode: defaultCurrencyCode ?? this.defaultCurrencyCode,
       isOnboardingComplete: isOnboardingComplete ?? this.isOnboardingComplete,
       isSecurityEnabled: isSecurityEnabled ?? this.isSecurityEnabled,
+      isPrivacyModeEnabled: isPrivacyModeEnabled ?? this.isPrivacyModeEnabled,
     );
   }
 
@@ -32,6 +36,7 @@ class SettingsState extends Equatable {
         'defaultCurrencyCode': defaultCurrencyCode,
         'isOnboardingComplete': isOnboardingComplete,
         'isSecurityEnabled': isSecurityEnabled,
+        'isPrivacyModeEnabled': isPrivacyModeEnabled,
       };
 
   factory SettingsState.fromJson(Map<String, dynamic> json) {
@@ -42,6 +47,8 @@ class SettingsState extends Equatable {
       isOnboardingComplete:
           json['isOnboardingComplete'] as bool? ?? false,
       isSecurityEnabled: json['isSecurityEnabled'] as bool? ?? false,
+      isPrivacyModeEnabled:
+          json['isPrivacyModeEnabled'] as bool? ?? false,
     );
   }
 
@@ -51,5 +58,6 @@ class SettingsState extends Equatable {
         defaultCurrencyCode,
         isOnboardingComplete,
         isSecurityEnabled,
+        isPrivacyModeEnabled,
       ];
 }

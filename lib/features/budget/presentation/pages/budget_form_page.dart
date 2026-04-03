@@ -20,6 +20,7 @@ class _BudgetFormPageState extends State<BudgetFormPage> {
   final _formKey = GlobalKey<FormState>();
   final _amountController = TextEditingController();
   String? _categoryId;
+  bool _enableRollover = false;
 
   @override
   void dispose() {
@@ -46,6 +47,7 @@ class _BudgetFormPageState extends State<BudgetFormPage> {
       currencyCode: AppConstants.defaultCurrencyCode,
       year: budgetState.selectedYear,
       month: budgetState.selectedMonth,
+      rolloverAmount: 0,
       createdAt: now,
       updatedAt: now,
     );
@@ -119,6 +121,18 @@ class _BudgetFormPageState extends State<BudgetFormPage> {
                 }
                 return null;
               },
+            ),
+            SizedBox(height: AppDimensions.paddingL),
+
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Enable Rollover'),
+              subtitle: const Text(
+                'Unused budget carries over to next month',
+              ),
+              value: _enableRollover,
+              onChanged: (value) =>
+                  setState(() => _enableRollover = value),
             ),
             SizedBox(height: AppDimensions.paddingXL),
 

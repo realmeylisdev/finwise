@@ -17,6 +17,28 @@ abstract class AppRoutes {
   static const String settingsBackup = '/settings/backup';
   static const String settingsSecurity = '/settings/security';
 
+  static const String settingsCategoryRules = '/settings/category-rules';
+
+  // Smart features
+  static const String recurringPatterns = '/recurring-patterns';
+
+  // Cash Flow
+  static const String cashFlow = '/cash-flow';
+
+  // Net Worth
+  static const String netWorth = '/net-worth';
+  static const String netWorthAssetForm = '/net-worth/asset/new';
+  static const String netWorthLiabilityForm = '/net-worth/liability/new';
+
+  // Debt Payoff
+  static const String debts = '/debts';
+  static const String debtForm = '/debts/new';
+  static const String payoffPlan = '/debts/payoff-plan';
+
+  // Subscriptions
+  static const String subscriptions = '/subscriptions';
+  static const String subscriptionForm = '/subscriptions/new';
+
   // Settings form sub-routes
   static const String settingsCategoryForm = '/settings/categories/new';
   static const String settingsAccountForm = '/settings/accounts/new';

@@ -4,6 +4,7 @@ import 'package:finwise/core/utils/date_formatter.dart';
 import 'package:finwise/features/category/presentation/widgets/category_icon_widget.dart';
 import 'package:finwise/features/savings_goal/domain/entities/savings_goal_entity.dart';
 import 'package:finwise/features/savings_goal/presentation/bloc/savings_goal_bloc.dart';
+import 'package:finwise/shared/widgets/celebration_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,8 +17,21 @@ class SavingsGoalDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SavingsGoalBloc, SavingsGoalState>(
-      builder: (context, state) {
+    return BlocListener<SavingsGoalBloc, SavingsGoalState>(
+      listenWhen: (previous, current) =>
+          !previous.goalJustCompleted && current.goalJustCompleted,
+      listener: (context, state) {
+        showCelebrationDialog(
+          context,
+          title: 'Goal Achieved!',
+          subtitle: 'Congratulations on reaching your savings goal!',
+        );
+        context
+            .read<SavingsGoalBloc>()
+            .add(const GoalCelebrationAcknowledged());
+      },
+      child: BlocBuilder<SavingsGoalBloc, SavingsGoalState>(
+        builder: (context, state) {
         final goal = state.goals.where((g) => g.id == id).firstOrNull;
 
         if (goal == null) {
@@ -162,7 +176,8 @@ class SavingsGoalDetailPage extends StatelessWidget {
             ),
           ),
         );
-      },
+        },
+      ),
     );
   }
 

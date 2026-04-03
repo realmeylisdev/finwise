@@ -4,6 +4,7 @@ import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/features/budget/presentation/bloc/budget_bloc.dart';
 import 'package:finwise/features/budget/presentation/widgets/budget_progress_bar.dart';
 import 'package:finwise/features/category/presentation/widgets/category_icon_widget.dart';
+import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -72,7 +73,7 @@ class BudgetsPage extends StatelessWidget {
               // Budget list
               Expanded(
                 child: state.status == BudgetStatus.loading
-                    ? const Center(child: CircularProgressIndicator())
+                    ? const SkeletonListTileGroup(count: 4)
                     : state.budgets.isEmpty
                         ? Center(
                             child: Column(

@@ -41,4 +41,12 @@ abstract class AppColors {
   static const Color budgetSafe = Color(0xFF22C55E);
   static const Color budgetWarning = Color(0xFFF59E0B);
   static const Color budgetDanger = Color(0xFFEF4444);
+
+  // Shimmer — Light
+  static const Color shimmerBaseLight = Color(0xFFE2E8F0);
+  static const Color shimmerHighlightLight = Color(0xFFF1F5F9);
+
+  // Shimmer — Dark
+  static const Color shimmerBaseDark = Color(0xFF334155);
+  static const Color shimmerHighlightDark = Color(0xFF475569);
 }

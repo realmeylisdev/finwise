@@ -32,6 +32,19 @@ class SettingsPage extends StatelessWidget {
                       subtitle: Text(_themeName(state.themeMode)),
                       onTap: () => _showThemePicker(context, state),
                     ),
+                    const Divider(height: 1),
+                    SwitchListTile(
+                      secondary: const AppIcon(
+                        icon: HugeIcons.strokeRoundedViewOff,
+                        color: Colors.indigo,
+                      ),
+                      title: const Text('Privacy Mode'),
+                      subtitle: const Text('Hide all balances'),
+                      value: state.isPrivacyModeEnabled,
+                      onChanged: (_) => context
+                          .read<SettingsBloc>()
+                          .add(const SettingsPrivacyToggled()),
+                    ),
                   ],
                 ),
               ),
@@ -73,6 +86,93 @@ class SettingsPage extends StatelessWidget {
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () =>
                           context.push(AppRoutes.settingsBills),
+                    ),
+                    const Divider(height: 1),
+                    ListTile(
+                      leading: const AppIcon(
+                        icon: HugeIcons.strokeRoundedSorting05,
+                        color: Colors.deepPurple,
+                      ),
+                      title: const Text('Category Rules'),
+                      subtitle:
+                          const Text('Auto-categorize transactions'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => context
+                          .push(AppRoutes.settingsCategoryRules),
+                    ),
+                    const Divider(height: 1),
+                    ListTile(
+                      leading: const AppIcon(
+                        icon: HugeIcons.strokeRoundedChartLineData02,
+                        color: Colors.green,
+                      ),
+                      title: const Text('Net Worth'),
+                      subtitle:
+                          const Text('Track assets & liabilities'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () =>
+                          context.push(AppRoutes.netWorth),
+                    ),
+                    const Divider(height: 1),
+                    ListTile(
+                      leading: const AppIcon(
+                        icon: HugeIcons.strokeRoundedRepeat,
+                        color: Colors.indigo,
+                      ),
+                      title: const Text('Subscriptions'),
+                      subtitle:
+                          const Text('Track recurring subscriptions'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () =>
+                          context.push(AppRoutes.subscriptions),
+                    ),
+                    const Divider(height: 1),
+                    ListTile(
+                      leading: const AppIcon(
+                        icon: HugeIcons.strokeRoundedCreditCard,
+                        color: Colors.red,
+                      ),
+                      title: const Text('Debt Payoff'),
+                      subtitle:
+                          const Text('Snowball & avalanche planner'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () =>
+                          context.push(AppRoutes.debts),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: AppDimensions.paddingM),
+
+              // Smart Features
+              _SectionHeader(title: 'Smart Features'),
+              Card(
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: const AppIcon(
+                        icon: HugeIcons.strokeRoundedRepeat,
+                        color: Colors.cyan,
+                      ),
+                      title: const Text('Recurring Transactions'),
+                      subtitle:
+                          const Text('Detect spending patterns'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () =>
+                          context.push(AppRoutes.recurringPatterns),
+                    ),
+                    const Divider(height: 1),
+                    ListTile(
+                      leading: const AppIcon(
+                        icon: HugeIcons.strokeRoundedChartLineData01,
+                        color: Colors.teal,
+                      ),
+                      title: const Text('Cash Flow Forecast'),
+                      subtitle:
+                          const Text('30-day balance projection'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () =>
+                          context.push(AppRoutes.cashFlow),
                     ),
                   ],
                 ),

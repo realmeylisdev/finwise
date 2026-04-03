@@ -39,3 +39,7 @@ class GoalWithdrawn extends SavingsGoalEvent {
   @override
   List<Object?> get props => [id, amount];
 }
+
+class GoalCelebrationAcknowledged extends SavingsGoalEvent {
+  const GoalCelebrationAcknowledged();
+}

@@ -3,6 +3,7 @@ import 'package:finwise/core/theme/app_colors.dart';
 import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/features/account/domain/entities/account_entity.dart';
 import 'package:finwise/features/account/presentation/bloc/account_bloc.dart';
+import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,7 +19,7 @@ class AccountsPage extends StatelessWidget {
       body: BlocBuilder<AccountBloc, AccountState>(
         builder: (context, state) {
           if (state.status == AccountStatus.loading) {
-            return const Center(child: CircularProgressIndicator());
+            return const SkeletonListTileGroup(count: 3);
           }
           if (state.accounts.isEmpty) {
             return Center(

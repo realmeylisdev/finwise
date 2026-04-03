@@ -30,3 +30,7 @@ class SettingsSecurityToggled extends SettingsEvent {
   @override
   List<Object?> get props => [enabled];
 }
+
+class SettingsPrivacyToggled extends SettingsEvent {
+  const SettingsPrivacyToggled();
+}

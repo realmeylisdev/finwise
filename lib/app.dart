@@ -6,6 +6,12 @@ import 'package:finwise/features/analytics/presentation/bloc/analytics_bloc.dart
 import 'package:finwise/features/backup/presentation/bloc/backup_bloc.dart';
 import 'package:finwise/features/bill_reminder/presentation/bloc/bill_reminder_bloc.dart';
 import 'package:finwise/features/budget/presentation/bloc/budget_bloc.dart';
+import 'package:finwise/features/cash_flow/presentation/bloc/cash_flow_bloc.dart';
+import 'package:finwise/features/category_rule/presentation/bloc/category_rule_bloc.dart';
+import 'package:finwise/features/debt_payoff/presentation/bloc/debt_payoff_bloc.dart';
+import 'package:finwise/features/net_worth/presentation/bloc/net_worth_bloc.dart';
+import 'package:finwise/features/subscription/presentation/bloc/subscription_bloc.dart';
+import 'package:finwise/features/recurring_detection/presentation/bloc/recurring_detection_bloc.dart';
 import 'package:finwise/features/category/presentation/bloc/category_bloc.dart';
 import 'package:finwise/features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import 'package:finwise/features/savings_goal/presentation/bloc/savings_goal_bloc.dart';
@@ -62,6 +68,26 @@ class FinWiseApp extends StatelessWidget {
             ..add(const SecurityCheckRequested()),
         ),
         BlocProvider(create: (_) => getIt<BackupBloc>()),
+        BlocProvider(
+          create: (_) =>
+              getIt<CategoryRuleBloc>()..add(const RulesLoaded()),
+        ),
+        BlocProvider(
+          create: (_) => getIt<RecurringDetectionBloc>()
+            ..add(const RecurringPatternsLoaded()),
+        ),
+        BlocProvider(
+          create: (_) => getIt<NetWorthBloc>()..add(const NetWorthLoaded()),
+        ),
+        BlocProvider(create: (_) => getIt<CashFlowBloc>()),
+        BlocProvider(
+          create: (_) =>
+              getIt<SubscriptionBloc>()..add(const SubscriptionsLoaded()),
+        ),
+        BlocProvider(
+          create: (_) =>
+              getIt<DebtPayoffBloc>()..add(const DebtsLoaded()),
+        ),
       ],
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, settingsState) {

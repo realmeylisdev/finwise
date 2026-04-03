@@ -8,6 +8,7 @@ class Budgets extends Table {
   TextColumn get currencyCode => text().withLength(min: 3, max: 3)();
   IntColumn get year => integer()();
   IntColumn get month => integer()();
+  RealColumn get rolloverAmount => real().withDefault(const Constant(0))();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime()();
 

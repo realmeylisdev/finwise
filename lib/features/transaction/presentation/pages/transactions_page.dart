@@ -4,6 +4,7 @@ import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/core/utils/date_formatter.dart';
 import 'package:finwise/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:finwise/features/transaction/presentation/widgets/transaction_list_item.dart';
+import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +28,7 @@ class TransactionsPage extends StatelessWidget {
       body: BlocBuilder<TransactionBloc, TransactionState>(
         builder: (context, state) {
           if (state.status == TransactionStatus.loading) {
-            return const Center(child: CircularProgressIndicator());
+            return const SkeletonListTileGroup();
           }
           if (state.transactions.isEmpty) {
             return Center(

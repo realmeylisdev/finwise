@@ -16,6 +16,7 @@ class DashboardSummaryEntity extends Equatable {
     this.activeGoals = const [],
     this.upcomingBills = const [],
     this.spendingByCategory = const {},
+    this.dailySpending = const [],
   });
 
   final double totalBalance;
@@ -28,12 +29,15 @@ class DashboardSummaryEntity extends Equatable {
   final List<BillReminderEntity> upcomingBills;
   final Map<String, double> spendingByCategory;
 
+  /// Last 30 days of daily expense totals (index 0 = oldest).
+  final List<double> dailySpending;
+
   double get netFlow => totalIncome - totalExpense;
 
   @override
   List<Object?> get props => [
         totalBalance, totalIncome, totalExpense, accounts,
         recentTransactions, budgets, activeGoals, upcomingBills,
-        spendingByCategory,
+        spendingByCategory, dailySpending,
       ];
 }

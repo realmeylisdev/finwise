@@ -2,6 +2,8 @@ import 'package:finwise/core/theme/app_colors.dart';
 import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/features/analytics/presentation/bloc/analytics_bloc.dart';
 import 'package:finwise/features/category/presentation/widgets/category_icon_widget.dart';
+import 'package:finwise/shared/widgets/skeleton_chart.dart';
+import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +31,17 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       body: BlocBuilder<AnalyticsBloc, AnalyticsState>(
         builder: (context, state) {
             if (state.status == AnalyticsStatus.loading) {
-              return const Center(child: CircularProgressIndicator());
+              return Padding(
+              padding: EdgeInsets.all(AppDimensions.paddingM),
+              child: Column(
+                children: [
+                  SizedBox(height: AppDimensions.paddingM),
+                  const SkeletonChart(),
+                  SizedBox(height: AppDimensions.paddingL),
+                  const SkeletonListTileGroup(count: 4),
+                ],
+              ),
+            );
             }
 
             return ListView(
@@ -357,17 +369,13 @@ class _IncomeExpenseChart extends StatelessWidget {
                 toY: entry.value.income,
                 color: AppColors.income,
                 width: 12.w,
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(4.r),
-                ),
+                borderRadius: BorderRadius.all(Radius.circular(6.r)),
               ),
               BarChartRodData(
                 toY: entry.value.expense,
                 color: AppColors.expense,
                 width: 12.w,
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(4.r),
-                ),
+                borderRadius: BorderRadius.all(Radius.circular(6.r)),
               ),
             ],
           );
@@ -384,24 +392,49 @@ class _CategoryPieChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PieChart(
-      PieChartData(
-        sectionsSpace: 2,
-        centerSpaceRadius: 40.r,
-        sections: spending.take(6).map((cs) {
-          return PieChartSectionData(
-            value: cs.amount,
-            color: Color(cs.categoryColor),
-            radius: 50.r,
-            title: '${(cs.percent * 100).toInt()}%',
-            titleStyle: TextStyle(
-              fontSize: 10.sp,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
+    final total = spending.fold<double>(0, (sum, cs) => sum + cs.amount);
+
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        PieChart(
+          PieChartData(
+            sectionsSpace: 2,
+            centerSpaceRadius: 45.r,
+            sections: spending.take(6).map((cs) {
+              return PieChartSectionData(
+                value: cs.amount,
+                color: Color(cs.categoryColor),
+                radius: 45.r,
+                title: '${(cs.percent * 100).toInt()}%',
+                titleStyle: TextStyle(
+                  fontSize: 10.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Total',
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
             ),
-          );
-        }).toList(),
-      ),
+            SizedBox(height: 2.h),
+            Text(
+              '\$${total.toStringAsFixed(0)}',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

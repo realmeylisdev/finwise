@@ -3,6 +3,7 @@ import 'package:finwise/core/theme/app_colors.dart';
 import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/features/search/presentation/bloc/search_bloc.dart';
 import 'package:finwise/features/transaction/presentation/widgets/transaction_list_item.dart';
+import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -134,7 +135,7 @@ class _SearchPageState extends State<SearchPage> {
           ),
         );
       case SearchStatus.loading:
-        return const Center(child: CircularProgressIndicator());
+        return const SkeletonListTileGroup();
       case SearchStatus.empty:
         return Center(
           child: Text(

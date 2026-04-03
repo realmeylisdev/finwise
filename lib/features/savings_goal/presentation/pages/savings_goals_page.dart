@@ -4,6 +4,7 @@ import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/features/category/presentation/widgets/category_icon_widget.dart';
 import 'package:finwise/features/savings_goal/domain/entities/savings_goal_entity.dart';
 import 'package:finwise/features/savings_goal/presentation/bloc/savings_goal_bloc.dart';
+import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,7 +20,7 @@ class SavingsGoalsPage extends StatelessWidget {
       body: BlocBuilder<SavingsGoalBloc, SavingsGoalState>(
         builder: (context, state) {
           if (state.status == SavingsGoalStatus.loading) {
-            return const Center(child: CircularProgressIndicator());
+            return const SkeletonListTileGroup(count: 3);
           }
           if (state.goals.isEmpty) {
             return Center(

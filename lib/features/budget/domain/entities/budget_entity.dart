@@ -8,6 +8,7 @@ class BudgetEntity extends Equatable {
     required this.currencyCode,
     required this.year,
     required this.month,
+    this.rolloverAmount = 0,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -18,6 +19,7 @@ class BudgetEntity extends Equatable {
   final String currencyCode;
   final int year;
   final int month;
+  final double rolloverAmount;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -28,6 +30,7 @@ class BudgetEntity extends Equatable {
     String? currencyCode,
     int? year,
     int? month,
+    double? rolloverAmount,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -38,6 +41,7 @@ class BudgetEntity extends Equatable {
       currencyCode: currencyCode ?? this.currencyCode,
       year: year ?? this.year,
       month: month ?? this.month,
+      rolloverAmount: rolloverAmount ?? this.rolloverAmount,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -46,7 +50,7 @@ class BudgetEntity extends Equatable {
   @override
   List<Object?> get props => [
         id, categoryId, amount, currencyCode,
-        year, month, createdAt, updatedAt,
+        year, month, rolloverAmount, createdAt, updatedAt,
       ];
 }
 
@@ -65,10 +69,11 @@ class BudgetWithSpendingEntity extends Equatable {
   final int categoryColor;
   final double spent;
 
-  double get remaining => budget.amount - spent;
+  double get _effectiveBudget => budget.amount + budget.rolloverAmount;
+  double get remaining => _effectiveBudget - spent;
   double get percentUsed =>
-      budget.amount > 0 ? (spent / budget.amount).clamp(0, 2) : 0;
-  bool get isOverBudget => spent > budget.amount;
+      _effectiveBudget > 0 ? (spent / _effectiveBudget).clamp(0, 2) : 0;
+  bool get isOverBudget => spent > _effectiveBudget;
 
   @override
   List<Object?> get props => [

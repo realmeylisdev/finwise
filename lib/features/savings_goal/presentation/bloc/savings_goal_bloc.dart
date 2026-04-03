@@ -29,6 +29,7 @@ class SavingsGoalBloc extends Bloc<SavingsGoalEvent, SavingsGoalState> {
     on<GoalDeleted>(_onDeleted, transformer: droppable());
     on<GoalContributed>(_onContributed, transformer: droppable());
     on<GoalWithdrawn>(_onWithdrawn, transformer: droppable());
+    on<GoalCelebrationAcknowledged>(_onCelebrationAcknowledged);
   }
 
   final GetSavingsGoalsUseCase _getGoals;
@@ -86,6 +87,11 @@ class SavingsGoalBloc extends Bloc<SavingsGoalEvent, SavingsGoalState> {
     GoalContributed event,
     Emitter<SavingsGoalState> emit,
   ) async {
+    // Check the goal before contributing to detect completion
+    final goalBefore =
+        state.goals.where((g) => g.id == event.id).firstOrNull;
+    final wasCompleted = goalBefore?.isCompleted ?? true;
+
     final result = await _contributeGoal(
       (id: event.id, amount: event.amount),
     );
@@ -94,7 +100,16 @@ class SavingsGoalBloc extends Bloc<SavingsGoalEvent, SavingsGoalState> {
         status: SavingsGoalStatus.failure,
         failureMessage: failure.message,
       )),
-      (_) => add(const GoalsLoaded()),
+      (_) {
+        // Detect if the goal just reached its target
+        if (!wasCompleted && goalBefore != null) {
+          final newSaved = goalBefore.savedAmount + event.amount;
+          if (newSaved >= goalBefore.targetAmount) {
+            emit(state.copyWith(goalJustCompleted: true));
+          }
+        }
+        add(const GoalsLoaded());
+      },
     );
   }
 
@@ -113,5 +128,12 @@ class SavingsGoalBloc extends Bloc<SavingsGoalEvent, SavingsGoalState> {
       )),
       (_) => add(const GoalsLoaded()),
     );
+  }
+
+  void _onCelebrationAcknowledged(
+    GoalCelebrationAcknowledged event,
+    Emitter<SavingsGoalState> emit,
+  ) {
+    emit(state.copyWith(goalJustCompleted: false));
   }
 }

@@ -4,12 +4,18 @@ import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/features/budget/presentation/widgets/budget_progress_bar.dart';
 import 'package:finwise/features/category/presentation/widgets/category_icon_widget.dart';
 import 'package:finwise/features/dashboard/presentation/bloc/dashboard_bloc.dart';
+import 'package:finwise/features/dashboard/presentation/widgets/insights_section.dart';
+import 'package:finwise/features/dashboard/presentation/widgets/monthly_summary_card.dart';
 import 'package:finwise/features/transaction/presentation/widgets/transaction_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:finwise/shared/widgets/app_icon.dart';
+import 'package:finwise/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:finwise/shared/widgets/skeleton_balance_card.dart';
+import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
+import 'package:finwise/shared/widgets/spending_sparkline.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -30,7 +36,20 @@ class DashboardPage extends StatelessWidget {
       body: BlocBuilder<DashboardBloc, DashboardState>(
         builder: (context, state) {
           if (state.status == DashboardStatus.loading) {
-            return const Center(child: CircularProgressIndicator());
+            return SafeArea(
+              child: Padding(
+                padding: EdgeInsets.all(AppDimensions.paddingL),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: AppDimensions.paddingM),
+                    const SkeletonBalanceCard(),
+                    SizedBox(height: AppDimensions.paddingL),
+                    const SkeletonListTileGroup(count: 4),
+                  ],
+                ),
+              ),
+            );
           }
 
           final s = state.summary;
@@ -77,6 +96,20 @@ class DashboardPage extends StatelessWidget {
                               ],
                             ),
                           ),
+                          BlocSelector<SettingsBloc, SettingsState, bool>(
+                            selector: (state) => state.isPrivacyModeEnabled,
+                            builder: (context, isPrivate) {
+                              return _HeaderButton(
+                                icon: isPrivate
+                                    ? HugeIcons.strokeRoundedViewOff
+                                    : HugeIcons.strokeRoundedView,
+                                onTap: () => context
+                                    .read<SettingsBloc>()
+                                    .add(const SettingsPrivacyToggled()),
+                              );
+                            },
+                          ),
+                          SizedBox(width: 8.w),
                           _HeaderButton(
                             icon: HugeIcons.strokeRoundedSearch01,
                             onTap: () => context.push(AppRoutes.search),
@@ -101,6 +134,7 @@ class DashboardPage extends StatelessWidget {
                       totalBalance: s.totalBalance,
                       income: s.totalIncome,
                       expense: s.totalExpense,
+                      dailySpending: s.dailySpending,
                       isDark: isDark,
                     ),
                   ),
@@ -157,6 +191,19 @@ class DashboardPage extends StatelessWidget {
                         ),
                       ],
                     ),
+                  ),
+                ),
+
+                SliverToBoxAdapter(
+                  child: SizedBox(height: AppDimensions.paddingL),
+                ),
+
+                // Monthly summary card
+                SliverToBoxAdapter(
+                  child: MonthlySummaryCard(
+                    income: s.totalIncome,
+                    expense: s.totalExpense,
+                    transactionCount: s.recentTransactions.length,
                   ),
                 ),
 
@@ -392,6 +439,17 @@ class DashboardPage extends StatelessWidget {
                   ),
                 ],
 
+                // Spending insights
+                if (state.insights.isNotEmpty) ...[
+                  _SliverSection(title: 'Insights'),
+                  SliverToBoxAdapter(
+                    child: InsightsSection(insights: state.insights),
+                  ),
+                  SliverToBoxAdapter(
+                    child: SizedBox(height: AppDimensions.paddingL),
+                  ),
+                ],
+
                 // Recent transactions
                 _SliverSection(title: 'Recent Transactions'),
                 if (s.recentTransactions.isEmpty)
@@ -498,12 +556,14 @@ class _BalanceCard extends StatelessWidget {
     required this.totalBalance,
     required this.income,
     required this.expense,
+    required this.dailySpending,
     required this.isDark,
   });
 
   final double totalBalance;
   final double income;
   final double expense;
+  final List<double> dailySpending;
   final bool isDark;
 
   @override
@@ -557,7 +617,11 @@ class _BalanceCard extends StatelessWidget {
               letterSpacing: -1,
             ),
           ),
-          SizedBox(height: 20.h),
+          if (dailySpending.isNotEmpty) ...[
+            SizedBox(height: 12.h),
+            SpendingSparkline(data: dailySpending, height: 36.h),
+          ],
+          SizedBox(height: 16.h),
 
           // Income / Expense row
           Container(

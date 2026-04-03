@@ -4,6 +4,7 @@ import 'package:finwise/core/theme/app_colors.dart';
 import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/features/account/domain/entities/account_entity.dart';
 import 'package:finwise/features/onboarding/presentation/bloc/onboarding_bloc.dart';
+import 'package:finwise/shared/widgets/skeleton_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,9 +26,39 @@ class OnboardingPage extends StatelessWidget {
         builder: (context, state) {
           return Scaffold(
             body: SafeArea(
-              child: Padding(
-                padding: EdgeInsets.all(AppDimensions.paddingL),
-                child: _buildStep(context, state),
+              child: Column(
+                children: [
+                  // Progress dots
+                  if (state.currentStep != OnboardingStep.done)
+                    Padding(
+                      padding: EdgeInsets.only(top: AppDimensions.paddingM),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(3, (i) {
+                          final stepIndex = state.currentStep.index;
+                          final isActive = i <= stepIndex;
+                          return Container(
+                            width: isActive ? 24.w : 8.w,
+                            height: 8.w,
+                            margin: EdgeInsets.symmetric(horizontal: 3.w),
+                            decoration: BoxDecoration(
+                              color: isActive
+                                  ? AppColors.primary
+                                  : AppColors.primary
+                                      .withValues(alpha: 0.2),
+                              borderRadius: BorderRadius.circular(4.r),
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.all(AppDimensions.paddingL),
+                      child: _buildStep(context, state),
+                    ),
+                  ),
+                ],
               ),
             ),
           );
@@ -45,7 +76,7 @@ class OnboardingPage extends StatelessWidget {
       case OnboardingStep.account:
         return _AccountStep();
       case OnboardingStep.done:
-        return const Center(child: CircularProgressIndicator());
+        return const Center(child: SkeletonCard());
     }
   }
 }

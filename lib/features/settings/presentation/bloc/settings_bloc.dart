@@ -13,6 +13,7 @@ class SettingsBloc extends HydratedBloc<SettingsEvent, SettingsState> {
     on<SettingsCurrencyChanged>(_onCurrencyChanged);
     on<SettingsOnboardingCompleted>(_onOnboardingCompleted);
     on<SettingsSecurityToggled>(_onSecurityToggled);
+    on<SettingsPrivacyToggled>(_onPrivacyToggled);
   }
 
   void _onThemeChanged(
@@ -41,6 +42,13 @@ class SettingsBloc extends HydratedBloc<SettingsEvent, SettingsState> {
     Emitter<SettingsState> emit,
   ) {
     emit(state.copyWith(isSecurityEnabled: event.enabled));
+  }
+
+  void _onPrivacyToggled(
+    SettingsPrivacyToggled event,
+    Emitter<SettingsState> emit,
+  ) {
+    emit(state.copyWith(isPrivacyModeEnabled: !state.isPrivacyModeEnabled));
   }
 
   @override

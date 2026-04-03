@@ -7,8 +7,16 @@ import 'package:finwise/core/database/daos/accounts_dao.dart';
 import 'package:finwise/core/database/daos/bill_reminders_dao.dart';
 import 'package:finwise/core/database/daos/budgets_dao.dart';
 import 'package:finwise/core/database/daos/categories_dao.dart';
+import 'package:finwise/core/database/daos/category_rules_dao.dart';
 import 'package:finwise/core/database/daos/currencies_dao.dart';
 import 'package:finwise/core/database/daos/savings_goals_dao.dart';
+import 'package:finwise/core/database/daos/transaction_splits_dao.dart';
+import 'package:finwise/core/database/daos/assets_dao.dart';
+import 'package:finwise/core/database/daos/liabilities_dao.dart';
+import 'package:finwise/core/database/daos/net_worth_snapshots_dao.dart';
+import 'package:finwise/core/database/daos/debt_payments_dao.dart';
+import 'package:finwise/core/database/daos/debts_dao.dart';
+import 'package:finwise/core/database/daos/subscriptions_dao.dart';
 import 'package:finwise/core/database/daos/transactions_dao.dart';
 import 'package:finwise/core/database/seed/default_categories.dart';
 import 'package:finwise/core/database/seed/default_currencies.dart';
@@ -16,8 +24,16 @@ import 'package:finwise/core/database/tables/accounts_table.dart';
 import 'package:finwise/core/database/tables/bill_reminders_table.dart';
 import 'package:finwise/core/database/tables/budgets_table.dart';
 import 'package:finwise/core/database/tables/categories_table.dart';
+import 'package:finwise/core/database/tables/category_rules_table.dart';
 import 'package:finwise/core/database/tables/currencies_table.dart';
 import 'package:finwise/core/database/tables/savings_goals_table.dart';
+import 'package:finwise/core/database/tables/transaction_splits_table.dart';
+import 'package:finwise/core/database/tables/assets_table.dart';
+import 'package:finwise/core/database/tables/liabilities_table.dart';
+import 'package:finwise/core/database/tables/net_worth_snapshots_table.dart';
+import 'package:finwise/core/database/tables/debt_payments_table.dart';
+import 'package:finwise/core/database/tables/debts_table.dart';
+import 'package:finwise/core/database/tables/subscriptions_table.dart';
 import 'package:finwise/core/database/tables/transactions_table.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -34,6 +50,14 @@ part 'app_database.g.dart';
     Budgets,
     SavingsGoals,
     BillReminders,
+    CategoryRules,
+    TransactionSplits,
+    Assets,
+    Liabilities,
+    NetWorthSnapshots,
+    Subscriptions,
+    Debts,
+    DebtPayments,
   ],
   daos: [
     CurrenciesDao,
@@ -43,6 +67,14 @@ part 'app_database.g.dart';
     BudgetsDao,
     SavingsGoalsDao,
     BillRemindersDao,
+    CategoryRulesDao,
+    TransactionSplitsDao,
+    AssetsDao,
+    LiabilitiesDao,
+    NetWorthSnapshotsDao,
+    SubscriptionsDao,
+    DebtsDao,
+    DebtPaymentsDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -58,6 +90,27 @@ class AppDatabase extends _$AppDatabase {
         onCreate: (m) async {
           await m.createAll();
           await _seedDefaultData();
+        },
+        onUpgrade: (m, from, to) async {
+          if (from < 2) {
+            await m.addColumn(budgets, budgets.rolloverAmount);
+            await m.createTable(categoryRules);
+          }
+          if (from < 3) {
+            await m.createTable(transactionSplits);
+          }
+          if (from < 4) {
+            await m.createTable(assets);
+            await m.createTable(liabilities);
+            await m.createTable(netWorthSnapshots);
+          }
+          if (from < 5) {
+            await m.createTable(subscriptions);
+          }
+          if (from < 6) {
+            await m.createTable(debts);
+            await m.createTable(debtPayments);
+          }
         },
       );
 

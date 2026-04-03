@@ -8,6 +8,21 @@ import 'package:finwise/features/bill_reminder/presentation/pages/bill_reminders
 import 'package:finwise/features/category/domain/entities/category_entity.dart';
 import 'package:finwise/features/category/presentation/pages/categories_page.dart';
 import 'package:finwise/features/category/presentation/pages/category_form_page.dart';
+import 'package:finwise/features/category_rule/presentation/pages/category_rules_page.dart';
+import 'package:finwise/features/cash_flow/presentation/pages/cash_flow_page.dart';
+import 'package:finwise/features/debt_payoff/domain/entities/debt_entity.dart';
+import 'package:finwise/features/debt_payoff/presentation/pages/debt_form_page.dart';
+import 'package:finwise/features/debt_payoff/presentation/pages/debts_page.dart';
+import 'package:finwise/features/debt_payoff/presentation/pages/payoff_plan_page.dart';
+import 'package:finwise/features/net_worth/domain/entities/asset_entity.dart';
+import 'package:finwise/features/net_worth/domain/entities/liability_entity.dart';
+import 'package:finwise/features/net_worth/presentation/pages/asset_form_page.dart';
+import 'package:finwise/features/net_worth/presentation/pages/liability_form_page.dart';
+import 'package:finwise/features/net_worth/presentation/pages/net_worth_page.dart';
+import 'package:finwise/features/recurring_detection/presentation/pages/recurring_patterns_page.dart';
+import 'package:finwise/features/subscription/domain/entities/subscription_entity.dart';
+import 'package:finwise/features/subscription/presentation/pages/subscription_form_page.dart';
+import 'package:finwise/features/subscription/presentation/pages/subscriptions_page.dart';
 import 'package:finwise/features/budget/presentation/pages/budget_detail_page.dart';
 import 'package:finwise/features/budget/presentation/pages/budget_form_page.dart';
 import 'package:finwise/features/budget/presentation/pages/budgets_page.dart';
@@ -70,6 +85,80 @@ class AppRouter {
         name: 'search',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const SearchPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.settingsCategoryRules,
+        name: 'settings-category-rules',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const CategoryRulesPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.recurringPatterns,
+        name: 'recurring-patterns',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const RecurringPatternsPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.cashFlow,
+        name: 'cash-flow',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const CashFlowPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.netWorth,
+        name: 'net-worth',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const NetWorthPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.netWorthAssetForm,
+        name: 'net-worth-asset-form',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => AssetFormPage(
+          asset: state.extra as AssetEntity?,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.netWorthLiabilityForm,
+        name: 'net-worth-liability-form',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => LiabilityFormPage(
+          liability: state.extra as LiabilityEntity?,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.subscriptions,
+        name: 'subscriptions',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const SubscriptionsPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.subscriptionForm,
+        name: 'subscription-form',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => SubscriptionFormPage(
+          subscription: state.extra as SubscriptionEntity?,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.debts,
+        name: 'debts',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const DebtsPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.debtForm,
+        name: 'debt-form',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => DebtFormPage(
+          debt: state.extra as DebtEntity?,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.payoffPlan,
+        name: 'payoff-plan',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const PayoffPlanPage(),
       ),
 
       // Main shell with 5-tab bottom nav

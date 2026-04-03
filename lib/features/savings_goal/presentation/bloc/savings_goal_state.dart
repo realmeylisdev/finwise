@@ -7,11 +7,13 @@ class SavingsGoalState extends Equatable {
     this.status = SavingsGoalStatus.initial,
     this.goals = const [],
     this.failureMessage,
+    this.goalJustCompleted = false,
   });
 
   final SavingsGoalStatus status;
   final List<SavingsGoalEntity> goals;
   final String? failureMessage;
+  final bool goalJustCompleted;
 
   List<SavingsGoalEntity> get activeGoals =>
       goals.where((g) => !g.isCompleted).toList();
@@ -23,14 +25,16 @@ class SavingsGoalState extends Equatable {
     SavingsGoalStatus? status,
     List<SavingsGoalEntity>? goals,
     String? failureMessage,
+    bool? goalJustCompleted,
   }) {
     return SavingsGoalState(
       status: status ?? this.status,
       goals: goals ?? this.goals,
       failureMessage: failureMessage ?? this.failureMessage,
+      goalJustCompleted: goalJustCompleted ?? this.goalJustCompleted,
     );
   }
 
   @override
-  List<Object?> get props => [status, goals, failureMessage];
+  List<Object?> get props => [status, goals, failureMessage, goalJustCompleted];
 }

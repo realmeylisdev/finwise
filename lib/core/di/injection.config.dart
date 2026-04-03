@@ -59,6 +59,10 @@ import '../../features/budget/domain/usecases/get_budgets_for_month_usecase.dart
 import '../../features/budget/domain/usecases/update_budget_usecase.dart'
     as _i651;
 import '../../features/budget/presentation/bloc/budget_bloc.dart' as _i438;
+import '../../features/cash_flow/domain/usecases/generate_forecast_usecase.dart'
+    as _i851;
+import '../../features/cash_flow/presentation/bloc/cash_flow_bloc.dart'
+    as _i405;
 import '../../features/category/data/datasources/category_local_datasource.dart'
     as _i759;
 import '../../features/category/data/repositories/category_repository_impl.dart'
@@ -76,10 +80,42 @@ import '../../features/category/domain/usecases/get_categories_usecase.dart'
 import '../../features/category/domain/usecases/update_category_usecase.dart'
     as _i312;
 import '../../features/category/presentation/bloc/category_bloc.dart' as _i292;
+import '../../features/category_rule/data/datasources/category_rule_local_datasource.dart'
+    as _i1012;
+import '../../features/category_rule/data/repositories/category_rule_repository_impl.dart'
+    as _i624;
+import '../../features/category_rule/domain/repositories/category_rule_repository.dart'
+    as _i870;
+import '../../features/category_rule/presentation/bloc/category_rule_bloc.dart'
+    as _i444;
+import '../../features/dashboard/domain/usecases/generate_insights_usecase.dart'
+    as _i228;
 import '../../features/dashboard/presentation/bloc/dashboard_bloc.dart'
     as _i652;
+import '../../features/debt_payoff/data/datasources/debt_payoff_local_datasource.dart'
+    as _i262;
+import '../../features/debt_payoff/data/repositories/debt_payoff_repository_impl.dart'
+    as _i103;
+import '../../features/debt_payoff/domain/repositories/debt_payoff_repository.dart'
+    as _i341;
+import '../../features/debt_payoff/domain/usecases/calculate_payoff_plan_usecase.dart'
+    as _i822;
+import '../../features/debt_payoff/presentation/bloc/debt_payoff_bloc.dart'
+    as _i946;
+import '../../features/net_worth/data/datasources/net_worth_local_datasource.dart'
+    as _i224;
+import '../../features/net_worth/data/repositories/net_worth_repository_impl.dart'
+    as _i74;
+import '../../features/net_worth/domain/repositories/net_worth_repository.dart'
+    as _i569;
+import '../../features/net_worth/presentation/bloc/net_worth_bloc.dart'
+    as _i486;
 import '../../features/onboarding/presentation/bloc/onboarding_bloc.dart'
     as _i792;
+import '../../features/recurring_detection/domain/usecases/detect_recurring_usecase.dart'
+    as _i579;
+import '../../features/recurring_detection/presentation/bloc/recurring_detection_bloc.dart'
+    as _i897;
 import '../../features/savings_goal/data/datasources/savings_goal_local_datasource.dart'
     as _i680;
 import '../../features/savings_goal/data/repositories/savings_goal_repository_impl.dart'
@@ -99,6 +135,20 @@ import '../../features/savings_goal/presentation/bloc/savings_goal_bloc.dart'
 import '../../features/search/presentation/bloc/search_bloc.dart' as _i552;
 import '../../features/security/presentation/bloc/security_bloc.dart' as _i676;
 import '../../features/settings/presentation/bloc/settings_bloc.dart' as _i585;
+import '../../features/split_transaction/data/datasources/split_transaction_local_datasource.dart'
+    as _i175;
+import '../../features/split_transaction/data/repositories/split_transaction_repository_impl.dart'
+    as _i475;
+import '../../features/split_transaction/domain/repositories/split_transaction_repository.dart'
+    as _i421;
+import '../../features/subscription/data/datasources/subscription_local_datasource.dart'
+    as _i174;
+import '../../features/subscription/data/repositories/subscription_repository_impl.dart'
+    as _i331;
+import '../../features/subscription/domain/repositories/subscription_repository.dart'
+    as _i185;
+import '../../features/subscription/presentation/bloc/subscription_bloc.dart'
+    as _i858;
 import '../../features/transaction/data/datasources/transaction_local_datasource.dart'
     as _i330;
 import '../../features/transaction/data/repositories/transaction_repository_impl.dart'
@@ -115,11 +165,19 @@ import '../../features/transaction/presentation/bloc/transaction_bloc.dart'
     as _i356;
 import '../database/app_database.dart' as _i982;
 import '../database/daos/accounts_dao.dart' as _i144;
+import '../database/daos/assets_dao.dart' as _i662;
 import '../database/daos/bill_reminders_dao.dart' as _i855;
 import '../database/daos/budgets_dao.dart' as _i152;
 import '../database/daos/categories_dao.dart' as _i676;
+import '../database/daos/category_rules_dao.dart' as _i409;
 import '../database/daos/currencies_dao.dart' as _i545;
+import '../database/daos/debt_payments_dao.dart' as _i781;
+import '../database/daos/debts_dao.dart' as _i744;
+import '../database/daos/liabilities_dao.dart' as _i878;
+import '../database/daos/net_worth_snapshots_dao.dart' as _i956;
 import '../database/daos/savings_goals_dao.dart' as _i800;
+import '../database/daos/subscriptions_dao.dart' as _i434;
+import '../database/daos/transaction_splits_dao.dart' as _i658;
 import '../database/daos/transactions_dao.dart' as _i76;
 import 'register_module.dart' as _i291;
 
@@ -131,6 +189,12 @@ extension GetItInjectableX on _i174.GetIt {
   }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
+    gh.factory<_i228.GenerateInsightsUseCase>(
+      () => _i228.GenerateInsightsUseCase(),
+    );
+    gh.factory<_i822.CalculatePayoffPlanUseCase>(
+      () => _i822.CalculatePayoffPlanUseCase(),
+    );
     gh.factory<_i676.SecurityBloc>(() => _i676.SecurityBloc());
     await gh.singletonAsync<_i460.SharedPreferences>(
       () => registerModule.prefs,
@@ -159,8 +223,39 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i855.BillRemindersDao>(
       () => registerModule.billRemindersDao(gh<_i982.AppDatabase>()),
     );
+    gh.singleton<_i409.CategoryRulesDao>(
+      () => registerModule.categoryRulesDao(gh<_i982.AppDatabase>()),
+    );
+    gh.singleton<_i658.TransactionSplitsDao>(
+      () => registerModule.transactionSplitsDao(gh<_i982.AppDatabase>()),
+    );
+    gh.singleton<_i662.AssetsDao>(
+      () => registerModule.assetsDao(gh<_i982.AppDatabase>()),
+    );
+    gh.singleton<_i878.LiabilitiesDao>(
+      () => registerModule.liabilitiesDao(gh<_i982.AppDatabase>()),
+    );
+    gh.singleton<_i956.NetWorthSnapshotsDao>(
+      () => registerModule.netWorthSnapshotsDao(gh<_i982.AppDatabase>()),
+    );
+    gh.singleton<_i434.SubscriptionsDao>(
+      () => registerModule.subscriptionsDao(gh<_i982.AppDatabase>()),
+    );
+    gh.singleton<_i744.DebtsDao>(
+      () => registerModule.debtsDao(gh<_i982.AppDatabase>()),
+    );
+    gh.singleton<_i781.DebtPaymentsDao>(
+      () => registerModule.debtPaymentsDao(gh<_i982.AppDatabase>()),
+    );
     gh.factory<_i212.BillReminderLocalDatasource>(
       () => _i212.BillReminderLocalDatasource(gh<_i855.BillRemindersDao>()),
+    );
+    gh.factory<_i224.NetWorthLocalDatasource>(
+      () => _i224.NetWorthLocalDatasource(
+        gh<_i662.AssetsDao>(),
+        gh<_i878.LiabilitiesDao>(),
+        gh<_i956.NetWorthSnapshotsDao>(),
+      ),
     );
     gh.factory<_i680.SavingsGoalLocalDatasource>(
       () => _i680.SavingsGoalLocalDatasource(gh<_i800.SavingsGoalsDao>()),
@@ -211,14 +306,39 @@ extension GetItInjectableX on _i174.GetIt {
         contributeGoal: gh<_i717.ContributeSavingsGoalUseCase>(),
       ),
     );
+    gh.factory<_i1012.CategoryRuleLocalDatasource>(
+      () => _i1012.CategoryRuleLocalDatasource(gh<_i409.CategoryRulesDao>()),
+    );
+    gh.factory<_i174.SubscriptionLocalDatasource>(
+      () => _i174.SubscriptionLocalDatasource(gh<_i434.SubscriptionsDao>()),
+    );
     gh.factory<_i1067.AccountRepository>(
       () => _i857.AccountRepositoryImpl(gh<_i29.AccountLocalDatasource>()),
     );
     gh.factory<_i330.TransactionLocalDatasource>(
       () => _i330.TransactionLocalDatasource(gh<_i76.TransactionsDao>()),
     );
+    gh.factory<_i262.DebtPayoffLocalDatasource>(
+      () => _i262.DebtPayoffLocalDatasource(
+        gh<_i744.DebtsDao>(),
+        gh<_i781.DebtPaymentsDao>(),
+      ),
+    );
     gh.factory<_i441.BudgetLocalDatasource>(
       () => _i441.BudgetLocalDatasource(gh<_i152.BudgetsDao>()),
+    );
+    gh.factory<_i175.SplitTransactionLocalDatasource>(
+      () => _i175.SplitTransactionLocalDatasource(
+        gh<_i658.TransactionSplitsDao>(),
+      ),
+    );
+    gh.factory<_i185.SubscriptionRepository>(
+      () => _i331.SubscriptionRepositoryImpl(
+        gh<_i174.SubscriptionLocalDatasource>(),
+      ),
+    );
+    gh.factory<_i569.NetWorthRepository>(
+      () => _i74.NetWorthRepositoryImpl(gh<_i224.NetWorthLocalDatasource>()),
     );
     gh.factory<_i792.OnboardingBloc>(
       () => _i792.OnboardingBloc(
@@ -245,13 +365,26 @@ extension GetItInjectableX on _i174.GetIt {
         deleteBill: gh<_i954.DeleteBillReminderUseCase>(),
       ),
     );
+    gh.factory<_i870.CategoryRuleRepository>(
+      () => _i624.CategoryRuleRepositoryImpl(
+        gh<_i1012.CategoryRuleLocalDatasource>(),
+      ),
+    );
     gh.factory<_i869.CategoryRepository>(
       () => _i528.CategoryRepositoryImpl(gh<_i759.CategoryLocalDatasource>()),
+    );
+    gh.factory<_i858.SubscriptionBloc>(
+      () => _i858.SubscriptionBloc(
+        repository: gh<_i185.SubscriptionRepository>(),
+      ),
     );
     gh.factory<_i1022.TransactionRepository>(
       () => _i600.TransactionRepositoryImpl(
         gh<_i330.TransactionLocalDatasource>(),
       ),
+    );
+    gh.factory<_i579.DetectRecurringUseCase>(
+      () => _i579.DetectRecurringUseCase(gh<_i1022.TransactionRepository>()),
     );
     gh.factory<_i346.CreateTransactionUseCase>(
       () => _i346.CreateTransactionUseCase(gh<_i1022.TransactionRepository>()),
@@ -281,6 +414,16 @@ extension GetItInjectableX on _i174.GetIt {
         transactionRepository: gh<_i1022.TransactionRepository>(),
       ),
     );
+    gh.factory<_i486.NetWorthBloc>(
+      () => _i486.NetWorthBloc(repository: gh<_i569.NetWorthRepository>()),
+    );
+    gh.factory<_i851.GenerateForecastUseCase>(
+      () => _i851.GenerateForecastUseCase(
+        accountRepository: gh<_i1067.AccountRepository>(),
+        billReminderRepository: gh<_i998.BillReminderRepository>(),
+        transactionRepository: gh<_i1022.TransactionRepository>(),
+      ),
+    );
     gh.factory<_i356.TransactionBloc>(
       () => _i356.TransactionBloc(
         getTransactions: gh<_i794.GetTransactionsUseCase>(),
@@ -304,8 +447,28 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i312.UpdateCategoryUseCase>(
       () => _i312.UpdateCategoryUseCase(gh<_i869.CategoryRepository>()),
     );
+    gh.factory<_i341.DebtPayoffRepository>(
+      () =>
+          _i103.DebtPayoffRepositoryImpl(gh<_i262.DebtPayoffLocalDatasource>()),
+    );
+    gh.factory<_i421.SplitTransactionRepository>(
+      () => _i475.SplitTransactionRepositoryImpl(
+        gh<_i175.SplitTransactionLocalDatasource>(),
+      ),
+    );
     gh.factory<_i438.BudgetRepository>(
       () => _i74.BudgetRepositoryImpl(gh<_i441.BudgetLocalDatasource>()),
+    );
+    gh.factory<_i946.DebtPayoffBloc>(
+      () => _i946.DebtPayoffBloc(
+        repository: gh<_i341.DebtPayoffRepository>(),
+        calculatePayoffPlan: gh<_i822.CalculatePayoffPlanUseCase>(),
+      ),
+    );
+    gh.factory<_i444.CategoryRuleBloc>(
+      () => _i444.CategoryRuleBloc(
+        repository: gh<_i870.CategoryRuleRepository>(),
+      ),
     );
     gh.factory<_i70.AnalyticsBloc>(
       () => _i70.AnalyticsBloc(
@@ -313,13 +476,9 @@ extension GetItInjectableX on _i174.GetIt {
         categoryRepository: gh<_i869.CategoryRepository>(),
       ),
     );
-    gh.factory<_i652.DashboardBloc>(
-      () => _i652.DashboardBloc(
-        accountRepository: gh<_i1067.AccountRepository>(),
-        transactionRepository: gh<_i1022.TransactionRepository>(),
-        budgetRepository: gh<_i438.BudgetRepository>(),
-        savingsGoalRepository: gh<_i555.SavingsGoalRepository>(),
-        billReminderRepository: gh<_i998.BillReminderRepository>(),
+    gh.factory<_i897.RecurringDetectionBloc>(
+      () => _i897.RecurringDetectionBloc(
+        detectRecurring: gh<_i579.DetectRecurringUseCase>(),
       ),
     );
     gh.factory<_i292.CategoryBloc>(
@@ -328,6 +487,11 @@ extension GetItInjectableX on _i174.GetIt {
         createCategory: gh<_i894.CreateCategoryUseCase>(),
         updateCategory: gh<_i312.UpdateCategoryUseCase>(),
         deleteCategory: gh<_i1064.DeleteCategoryUseCase>(),
+      ),
+    );
+    gh.factory<_i405.CashFlowBloc>(
+      () => _i405.CashFlowBloc(
+        generateForecastUseCase: gh<_i851.GenerateForecastUseCase>(),
       ),
     );
     gh.factory<_i430.CreateBudgetUseCase>(
@@ -341,6 +505,16 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i651.UpdateBudgetUseCase>(
       () => _i651.UpdateBudgetUseCase(gh<_i438.BudgetRepository>()),
+    );
+    gh.factory<_i652.DashboardBloc>(
+      () => _i652.DashboardBloc(
+        accountRepository: gh<_i1067.AccountRepository>(),
+        transactionRepository: gh<_i1022.TransactionRepository>(),
+        budgetRepository: gh<_i438.BudgetRepository>(),
+        savingsGoalRepository: gh<_i555.SavingsGoalRepository>(),
+        billReminderRepository: gh<_i998.BillReminderRepository>(),
+        generateInsightsUseCase: gh<_i228.GenerateInsightsUseCase>(),
+      ),
     );
     gh.factory<_i438.BudgetBloc>(
       () => _i438.BudgetBloc(

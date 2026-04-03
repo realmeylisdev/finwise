@@ -5,6 +5,7 @@ import 'package:finwise/features/category/domain/entities/category_entity.dart';
 import 'package:finwise/features/category/presentation/bloc/category_bloc.dart';
 import 'package:finwise/features/category/presentation/widgets/category_icon_widget.dart';
 import 'package:finwise/shared/widgets/pill_tab_bar.dart';
+import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -53,9 +54,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
             child: BlocBuilder<CategoryBloc, CategoryState>(
               builder: (context, state) {
                 if (state.status == CategoryStatus.loading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return const SkeletonListTileGroup(count: 4);
                 }
                 return IndexedStack(
                   index: _selectedIndex,
