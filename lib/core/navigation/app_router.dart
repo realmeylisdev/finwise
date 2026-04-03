@@ -11,6 +11,9 @@ import 'package:finwise/features/category/presentation/pages/categories_page.dar
 import 'package:finwise/features/category/presentation/pages/category_form_page.dart';
 import 'package:finwise/features/category_rule/presentation/pages/category_rules_page.dart';
 import 'package:finwise/features/cash_flow/presentation/pages/cash_flow_page.dart';
+import 'package:finwise/features/investments/domain/entities/investment_entity.dart';
+import 'package:finwise/features/investments/presentation/pages/investment_form_page.dart';
+import 'package:finwise/features/investments/presentation/pages/investments_page.dart';
 import 'package:finwise/features/debt_payoff/domain/entities/debt_entity.dart';
 import 'package:finwise/features/debt_payoff/presentation/pages/debt_form_page.dart';
 import 'package:finwise/features/debt_payoff/presentation/pages/debts_page.dart';
@@ -22,9 +25,15 @@ import 'package:finwise/features/net_worth/presentation/pages/asset_form_page.da
 import 'package:finwise/features/net_worth/presentation/pages/liability_form_page.dart';
 import 'package:finwise/features/net_worth/presentation/pages/net_worth_page.dart';
 import 'package:finwise/features/recurring_detection/presentation/pages/recurring_patterns_page.dart';
+import 'package:finwise/features/reports/presentation/pages/reports_page.dart';
 import 'package:finwise/features/subscription/domain/entities/subscription_entity.dart';
 import 'package:finwise/features/subscription/presentation/pages/subscription_form_page.dart';
 import 'package:finwise/features/subscription/presentation/pages/subscriptions_page.dart';
+import 'package:finwise/features/profiles/domain/entities/profile_entity.dart';
+import 'package:finwise/features/profiles/presentation/pages/profile_form_page.dart';
+import 'package:finwise/features/profiles/presentation/pages/profiles_page.dart';
+import 'package:finwise/features/shared_budgets/presentation/pages/shared_budgets_page.dart';
+import 'package:finwise/features/ai_insights/presentation/pages/ai_insights_page.dart';
 import 'package:finwise/features/wellness_score/presentation/pages/wellness_score_page.dart';
 import 'package:finwise/features/budget/presentation/pages/budget_detail_page.dart';
 import 'package:finwise/features/budget/presentation/pages/budget_form_page.dart';
@@ -130,6 +139,20 @@ class AppRouter {
         ),
       ),
       GoRoute(
+        path: AppRoutes.investments,
+        name: 'investments',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const InvestmentsPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.investmentForm,
+        name: 'investment-form',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => InvestmentFormPage(
+          investment: state.extra as InvestmentEntity?,
+        ),
+      ),
+      GoRoute(
         path: AppRoutes.achievements,
         name: 'achievements',
         parentNavigatorKey: _rootNavigatorKey,
@@ -180,6 +203,40 @@ class AppRouter {
         name: 'wellness-score',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const WellnessScorePage(),
+      ),
+      GoRoute(
+        path: AppRoutes.reports,
+        name: 'reports',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const ReportsPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.aiInsights,
+        name: 'ai-insights',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const AiInsightsPage(),
+      ),
+
+      // Family & Sharing
+      GoRoute(
+        path: AppRoutes.profiles,
+        name: 'profiles',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const ProfilesPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.profileForm,
+        name: 'profile-form',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => ProfileFormPage(
+          profile: state.extra as ProfileEntity?,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.sharedBudgets,
+        name: 'shared-budgets',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const SharedBudgetsPage(),
       ),
 
       // Main shell with 5-tab bottom nav

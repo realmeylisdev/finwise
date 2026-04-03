@@ -30,6 +30,10 @@ abstract class AppRoutes {
   static const String netWorthAssetForm = '/net-worth/asset/new';
   static const String netWorthLiabilityForm = '/net-worth/liability/new';
 
+  // Investments
+  static const String investments = '/investments';
+  static const String investmentForm = '/investments/new';
+
   // Debt Payoff
   static const String debts = '/debts';
   static const String debtForm = '/debts/new';
@@ -47,6 +51,17 @@ abstract class AppRoutes {
 
   // Wellness Score
   static const String wellnessScore = '/wellness-score';
+
+  // AI Insights
+  static const String aiInsights = '/ai-insights';
+
+  // Reports
+  static const String reports = '/reports';
+
+  // Family & Sharing
+  static const String profiles = '/profiles';
+  static const String profileForm = '/profiles/new';
+  static const String sharedBudgets = '/shared-budgets';
 
   // Settings form sub-routes
   static const String settingsCategoryForm = '/settings/categories/new';

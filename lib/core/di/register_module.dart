@@ -13,7 +13,11 @@ import 'package:finwise/core/database/daos/net_worth_snapshots_dao.dart';
 import 'package:finwise/core/database/daos/debt_payments_dao.dart';
 import 'package:finwise/core/database/daos/debts_dao.dart';
 import 'package:finwise/core/database/daos/achievements_dao.dart';
+import 'package:finwise/core/database/daos/investment_history_dao.dart';
+import 'package:finwise/core/database/daos/investments_dao.dart';
 import 'package:finwise/core/database/daos/notifications_dao.dart';
+import 'package:finwise/core/database/daos/profiles_dao.dart';
+import 'package:finwise/core/database/daos/shared_budgets_dao.dart';
 import 'package:finwise/core/database/daos/subscriptions_dao.dart';
 import 'package:finwise/core/database/daos/transactions_dao.dart';
 import 'package:finwise/core/database/daos/user_stats_dao.dart';
@@ -84,4 +88,17 @@ abstract class RegisterModule {
 
   @singleton
   NotificationsDao notificationsDao(AppDatabase db) => db.notificationsDao;
+
+  @singleton
+  InvestmentsDao investmentsDao(AppDatabase db) => db.investmentsDao;
+
+  @singleton
+  InvestmentHistoryDao investmentHistoryDao(AppDatabase db) =>
+      db.investmentHistoryDao;
+
+  @singleton
+  ProfilesDao profilesDao(AppDatabase db) => db.profilesDao;
+
+  @singleton
+  SharedBudgetsDao sharedBudgetsDao(AppDatabase db) => db.sharedBudgetsDao;
 }

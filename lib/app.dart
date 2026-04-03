@@ -1,6 +1,7 @@
 import 'package:finwise/core/di/injection.dart';
 import 'package:finwise/core/navigation/app_router.dart';
 import 'package:finwise/core/theme/app_theme.dart';
+import 'package:finwise/features/ai_insights/presentation/bloc/ai_insights_bloc.dart';
 import 'package:finwise/features/achievements/presentation/bloc/achievements_bloc.dart';
 import 'package:finwise/features/account/presentation/bloc/account_bloc.dart';
 import 'package:finwise/features/analytics/presentation/bloc/analytics_bloc.dart';
@@ -10,18 +11,22 @@ import 'package:finwise/features/budget/presentation/bloc/budget_bloc.dart';
 import 'package:finwise/features/cash_flow/presentation/bloc/cash_flow_bloc.dart';
 import 'package:finwise/features/category_rule/presentation/bloc/category_rule_bloc.dart';
 import 'package:finwise/features/debt_payoff/presentation/bloc/debt_payoff_bloc.dart';
+import 'package:finwise/features/investments/presentation/bloc/investments_bloc.dart';
 import 'package:finwise/features/net_worth/presentation/bloc/net_worth_bloc.dart';
 import 'package:finwise/features/notifications/presentation/bloc/notifications_bloc.dart';
 import 'package:finwise/features/onboarding_checklist/presentation/bloc/checklist_bloc.dart';
 import 'package:finwise/features/subscription/presentation/bloc/subscription_bloc.dart';
 import 'package:finwise/features/wellness_score/presentation/bloc/wellness_score_bloc.dart';
 import 'package:finwise/features/recurring_detection/presentation/bloc/recurring_detection_bloc.dart';
+import 'package:finwise/features/reports/presentation/bloc/reports_bloc.dart';
 import 'package:finwise/features/category/presentation/bloc/category_bloc.dart';
 import 'package:finwise/features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import 'package:finwise/features/savings_goal/presentation/bloc/savings_goal_bloc.dart';
 import 'package:finwise/features/search/presentation/bloc/search_bloc.dart';
 import 'package:finwise/features/security/presentation/bloc/security_bloc.dart';
 import 'package:finwise/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:finwise/features/profiles/presentation/bloc/profiles_bloc.dart';
+import 'package:finwise/features/shared_budgets/presentation/bloc/shared_budgets_bloc.dart';
 import 'package:finwise/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -83,6 +88,10 @@ class FinWiseApp extends StatelessWidget {
         BlocProvider(
           create: (_) => getIt<NetWorthBloc>()..add(const NetWorthLoaded()),
         ),
+        BlocProvider(
+          create: (_) =>
+              getIt<InvestmentsBloc>()..add(const InvestmentsLoaded()),
+        ),
         BlocProvider(create: (_) => getIt<CashFlowBloc>()),
         BlocProvider(
           create: (_) =>
@@ -108,6 +117,13 @@ class FinWiseApp extends StatelessWidget {
           create: (_) =>
               getIt<WellnessScoreBloc>()..add(const WellnessScoreLoaded()),
         ),
+        BlocProvider(create: (_) => getIt<ReportsBloc>()),
+        BlocProvider(create: (_) => getIt<AiInsightsBloc>()),
+        BlocProvider(
+          create: (_) =>
+              getIt<ProfilesBloc>()..add(const ProfilesLoaded()),
+        ),
+        BlocProvider(create: (_) => getIt<SharedBudgetsBloc>()),
       ],
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, settingsState) {

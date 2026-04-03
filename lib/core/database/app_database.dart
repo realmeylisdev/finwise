@@ -17,7 +17,11 @@ import 'package:finwise/core/database/daos/net_worth_snapshots_dao.dart';
 import 'package:finwise/core/database/daos/debt_payments_dao.dart';
 import 'package:finwise/core/database/daos/debts_dao.dart';
 import 'package:finwise/core/database/daos/achievements_dao.dart';
+import 'package:finwise/core/database/daos/investment_history_dao.dart';
+import 'package:finwise/core/database/daos/investments_dao.dart';
 import 'package:finwise/core/database/daos/notifications_dao.dart';
+import 'package:finwise/core/database/daos/profiles_dao.dart';
+import 'package:finwise/core/database/daos/shared_budgets_dao.dart';
 import 'package:finwise/core/database/daos/subscriptions_dao.dart';
 import 'package:finwise/core/database/daos/transactions_dao.dart';
 import 'package:finwise/core/database/daos/user_stats_dao.dart';
@@ -37,7 +41,11 @@ import 'package:finwise/core/database/tables/net_worth_snapshots_table.dart';
 import 'package:finwise/core/database/tables/debt_payments_table.dart';
 import 'package:finwise/core/database/tables/debts_table.dart';
 import 'package:finwise/core/database/tables/achievements_table.dart';
+import 'package:finwise/core/database/tables/investment_history_table.dart';
+import 'package:finwise/core/database/tables/investments_table.dart';
 import 'package:finwise/core/database/tables/notifications_table.dart';
+import 'package:finwise/core/database/tables/profiles_table.dart';
+import 'package:finwise/core/database/tables/shared_budgets_table.dart';
 import 'package:finwise/core/database/tables/subscriptions_table.dart';
 import 'package:finwise/core/database/tables/transactions_table.dart';
 import 'package:finwise/core/database/tables/user_stats_table.dart';
@@ -68,6 +76,10 @@ part 'app_database.g.dart';
     Achievements,
     UserStats,
     Notifications,
+    Investments,
+    InvestmentHistory,
+    Profiles,
+    SharedBudgets,
   ],
   daos: [
     CurrenciesDao,
@@ -88,6 +100,10 @@ part 'app_database.g.dart';
     AchievementsDao,
     UserStatsDao,
     NotificationsDao,
+    InvestmentsDao,
+    InvestmentHistoryDao,
+    ProfilesDao,
+    SharedBudgetsDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -131,6 +147,14 @@ class AppDatabase extends _$AppDatabase {
           }
           if (from < 8) {
             await m.createTable(notifications);
+          }
+          if (from < 9) {
+            await m.createTable(investments);
+            await m.createTable(investmentHistory);
+          }
+          if (from < 10) {
+            await m.createTable(profiles);
+            await m.createTable(sharedBudgets);
           }
         },
       );

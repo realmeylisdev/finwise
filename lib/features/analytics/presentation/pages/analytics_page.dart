@@ -1,3 +1,4 @@
+import 'package:finwise/core/navigation/app_routes.dart';
 import 'package:finwise/core/theme/app_colors.dart';
 import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/features/analytics/presentation/bloc/analytics_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class AnalyticsPage extends StatefulWidget {
@@ -248,6 +250,15 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                     ),
                   ),
                 ],
+
+                // Smart Insights link
+                SizedBox(height: AppDimensions.paddingL),
+                FilledButton.tonalIcon(
+                  onPressed: () =>
+                      context.push(AppRoutes.aiInsights),
+                  icon: const Icon(Icons.auto_awesome),
+                  label: const Text('View Smart Insights'),
+                ),
 
                 SizedBox(height: 40.h),
               ],

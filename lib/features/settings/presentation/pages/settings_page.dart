@@ -116,6 +116,19 @@ class SettingsPage extends StatelessWidget {
                     const Divider(height: 1),
                     ListTile(
                       leading: const AppIcon(
+                        icon: HugeIcons.strokeRoundedChart,
+                        color: Colors.teal,
+                      ),
+                      title: const Text('Investments'),
+                      subtitle:
+                          const Text('Portfolio & performance tracking'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () =>
+                          context.push(AppRoutes.investments),
+                    ),
+                    const Divider(height: 1),
+                    ListTile(
+                      leading: const AppIcon(
                         icon: HugeIcons.strokeRoundedRepeat,
                         color: Colors.indigo,
                       ),
@@ -138,6 +151,19 @@ class SettingsPage extends StatelessWidget {
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () =>
                           context.push(AppRoutes.debts),
+                    ),
+                    const Divider(height: 1),
+                    ListTile(
+                      leading: const AppIcon(
+                        icon: HugeIcons.strokeRoundedFileAttachment,
+                        color: Colors.deepOrange,
+                      ),
+                      title: const Text('Reports'),
+                      subtitle:
+                          const Text('Monthly & annual PDF reports'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () =>
+                          context.push(AppRoutes.reports),
                     ),
                   ],
                 ),
@@ -199,6 +225,54 @@ class SettingsPage extends StatelessWidget {
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () =>
                           context.push(AppRoutes.wellnessScore),
+                    ),
+                    const Divider(height: 1),
+                    ListTile(
+                      leading: const AppIcon(
+                        icon: HugeIcons.strokeRoundedIdea01,
+                        color: Colors.deepPurpleAccent,
+                      ),
+                      title: const Text('Smart Insights'),
+                      subtitle:
+                          const Text('AI-powered spending analysis'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () =>
+                          context.push(AppRoutes.aiInsights),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: AppDimensions.paddingM),
+
+              // Family
+              _SectionHeader(title: 'Family'),
+              Card(
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: const AppIcon(
+                        icon: HugeIcons.strokeRoundedUserGroup,
+                        color: Colors.blue,
+                      ),
+                      title: const Text('Family Members'),
+                      subtitle:
+                          const Text('Manage profiles for shared budgets'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () =>
+                          context.push(AppRoutes.profiles),
+                    ),
+                    const Divider(height: 1),
+                    ListTile(
+                      leading: const AppIcon(
+                        icon: HugeIcons.strokeRoundedShare01,
+                        color: Colors.orange,
+                      ),
+                      title: const Text('Shared Budgets'),
+                      subtitle:
+                          const Text('Share budgets with family members'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () =>
+                          context.push(AppRoutes.sharedBudgets),
                     ),
                   ],
                 ),
