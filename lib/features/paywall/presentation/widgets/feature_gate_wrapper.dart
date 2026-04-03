@@ -32,40 +32,37 @@ class FeatureGateWrapper extends StatelessWidget {
             opacity: 0.3,
             child: AbsorbPointer(child: child),
           ),
-          Positioned.fill(
+          Positioned(
+            right: AppDimensions.paddingM,
+            top: 0,
+            bottom: 0,
             child: Center(
               child: Container(
                 padding: EdgeInsets.symmetric(
-                  horizontal: AppDimensions.paddingM,
-                  vertical: AppDimensions.paddingS,
+                  horizontal: 10.w,
+                  vertical: 4.h,
                 ),
                 decoration: BoxDecoration(
-                  color: isDark
-                      ? AppColors.surfaceDark.withValues(alpha: 0.9)
-                      : AppColors.surfaceLight.withValues(alpha: 0.9),
-                  borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.1),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
+                  color: AppColors.primary.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(20.r),
+                  border: Border.all(
+                    color: AppColors.primary.withValues(alpha: 0.3),
+                  ),
                 ),
-                child: Column(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
                       Icons.lock_outline_rounded,
-                      size: AppDimensions.iconL,
+                      size: 14.w,
                       color: AppColors.primary,
                     ),
-                    SizedBox(height: 4.h),
+                    SizedBox(width: 4.w),
                     Text(
-                      'Upgrade to unlock',
+                      'PRO',
                       style: TextStyle(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 11.sp,
+                        fontWeight: FontWeight.w700,
                         color: AppColors.primary,
                       ),
                     ),
