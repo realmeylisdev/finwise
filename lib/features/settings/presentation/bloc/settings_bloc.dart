@@ -14,6 +14,7 @@ class SettingsBloc extends HydratedBloc<SettingsEvent, SettingsState> {
     on<SettingsOnboardingCompleted>(_onOnboardingCompleted);
     on<SettingsSecurityToggled>(_onSecurityToggled);
     on<SettingsPrivacyToggled>(_onPrivacyToggled);
+    on<SettingsChecklistDismissed>(_onChecklistDismissed);
   }
 
   void _onThemeChanged(
@@ -49,6 +50,13 @@ class SettingsBloc extends HydratedBloc<SettingsEvent, SettingsState> {
     Emitter<SettingsState> emit,
   ) {
     emit(state.copyWith(isPrivacyModeEnabled: !state.isPrivacyModeEnabled));
+  }
+
+  void _onChecklistDismissed(
+    SettingsChecklistDismissed event,
+    Emitter<SettingsState> emit,
+  ) {
+    emit(state.copyWith(isChecklistDismissed: true));
   }
 
   @override

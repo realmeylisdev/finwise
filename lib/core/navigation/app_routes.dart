@@ -35,9 +35,18 @@ abstract class AppRoutes {
   static const String debtForm = '/debts/new';
   static const String payoffPlan = '/debts/payoff-plan';
 
+  // Achievements
+  static const String achievements = '/achievements';
+
+  // Notifications
+  static const String notifications = '/notifications';
+
   // Subscriptions
   static const String subscriptions = '/subscriptions';
   static const String subscriptionForm = '/subscriptions/new';
+
+  // Wellness Score
+  static const String wellnessScore = '/wellness-score';
 
   // Settings form sub-routes
   static const String settingsCategoryForm = '/settings/categories/new';

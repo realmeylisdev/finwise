@@ -3,7 +3,10 @@ import 'package:finwise/core/theme/app_colors.dart';
 import 'package:finwise/core/theme/app_dimensions.dart';
 import 'package:finwise/features/budget/presentation/widgets/budget_progress_bar.dart';
 import 'package:finwise/features/category/presentation/widgets/category_icon_widget.dart';
+import 'package:finwise/features/achievements/presentation/widgets/streak_widget.dart';
 import 'package:finwise/features/dashboard/presentation/bloc/dashboard_bloc.dart';
+import 'package:finwise/features/notifications/presentation/bloc/notifications_bloc.dart';
+import 'package:finwise/features/notifications/presentation/widgets/notification_badge.dart';
 import 'package:finwise/features/dashboard/presentation/widgets/insights_section.dart';
 import 'package:finwise/features/dashboard/presentation/widgets/monthly_summary_card.dart';
 import 'package:finwise/features/transaction/presentation/widgets/transaction_list_item.dart';
@@ -16,6 +19,9 @@ import 'package:finwise/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:finwise/shared/widgets/skeleton_balance_card.dart';
 import 'package:finwise/shared/widgets/skeleton_list_tile.dart';
 import 'package:finwise/shared/widgets/spending_sparkline.dart';
+import 'package:finwise/features/onboarding_checklist/presentation/widgets/checklist_card.dart';
+import 'package:finwise/features/wellness_score/presentation/bloc/wellness_score_bloc.dart';
+import 'package:finwise/features/wellness_score/presentation/widgets/wellness_score_gauge.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -96,6 +102,33 @@ class DashboardPage extends StatelessWidget {
                               ],
                             ),
                           ),
+                          const StreakWidget(),
+                          SizedBox(width: 8.w),
+                          BlocSelector<NotificationsBloc, NotificationsState,
+                              int>(
+                            selector: (state) => state.unreadCount,
+                            builder: (context, unreadCount) {
+                              return Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  _HeaderButton(
+                                    icon: HugeIcons
+                                        .strokeRoundedNotification03,
+                                    onTap: () => context
+                                        .push(AppRoutes.notifications),
+                                  ),
+                                  if (unreadCount > 0)
+                                    Positioned(
+                                      right: -4.w,
+                                      top: -4.w,
+                                      child: NotificationBadge(
+                                          count: unreadCount),
+                                    ),
+                                ],
+                              );
+                            },
+                          ),
+                          SizedBox(width: 8.w),
                           BlocSelector<SettingsBloc, SettingsState, bool>(
                             selector: (state) => state.isPrivacyModeEnabled,
                             builder: (context, isPrivate) {
@@ -138,6 +171,109 @@ class DashboardPage extends StatelessWidget {
                       isDark: isDark,
                     ),
                   ),
+                ),
+
+                // Onboarding checklist (shown if not complete and not dismissed)
+                BlocBuilder<SettingsBloc, SettingsState>(
+                  buildWhen: (prev, curr) =>
+                      prev.isChecklistDismissed !=
+                      curr.isChecklistDismissed,
+                  builder: (context, settingsState) {
+                    if (settingsState.isChecklistDismissed) {
+                      return const SliverToBoxAdapter(
+                        child: SizedBox.shrink(),
+                      );
+                    }
+                    return SliverToBoxAdapter(
+                      child: Column(
+                        children: [
+                          const ChecklistCard(),
+                          SizedBox(height: AppDimensions.paddingL),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+
+                // Compact wellness score widget
+                BlocBuilder<WellnessScoreBloc, WellnessScoreState>(
+                  builder: (context, wsState) {
+                    if (wsState.status != WellnessScoreStatus.success ||
+                        wsState.score == null) {
+                      return const SliverToBoxAdapter(
+                        child: SizedBox.shrink(),
+                      );
+                    }
+                    return SliverToBoxAdapter(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: AppDimensions.paddingL,
+                          right: AppDimensions.paddingL,
+                          bottom: AppDimensions.paddingL,
+                        ),
+                        child: GestureDetector(
+                          onTap: () =>
+                              context.push(AppRoutes.wellnessScore),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16.w,
+                              vertical: 14.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.surface,
+                              borderRadius:
+                                  BorderRadius.circular(16.r),
+                              border: Border.all(
+                                color: theme
+                                    .colorScheme.outlineVariant
+                                    .withValues(alpha: 0.3),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                WellnessScoreGauge(
+                                  score: wsState.score!,
+                                  compact: true,
+                                ),
+                                SizedBox(width: 16.w),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Financial Wellness',
+                                        style: theme
+                                            .textTheme.titleSmall
+                                            ?.copyWith(
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      SizedBox(height: 4.h),
+                                      Text(
+                                        wsState.score!.description,
+                                        style: theme
+                                            .textTheme.bodySmall
+                                            ?.copyWith(
+                                          color: theme.colorScheme
+                                              .onSurfaceVariant,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.chevron_right_rounded,
+                                  color: theme
+                                      .colorScheme.onSurfaceVariant,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
 
                 // Quick actions

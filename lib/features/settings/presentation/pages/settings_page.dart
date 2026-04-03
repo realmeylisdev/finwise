@@ -151,6 +151,19 @@ class SettingsPage extends StatelessWidget {
                   children: [
                     ListTile(
                       leading: const AppIcon(
+                        icon: HugeIcons.strokeRoundedAward01,
+                        color: Colors.amber,
+                      ),
+                      title: const Text('Achievements'),
+                      subtitle:
+                          const Text('Badges & streak tracking'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () =>
+                          context.push(AppRoutes.achievements),
+                    ),
+                    const Divider(height: 1),
+                    ListTile(
+                      leading: const AppIcon(
                         icon: HugeIcons.strokeRoundedRepeat,
                         color: Colors.cyan,
                       ),
@@ -173,6 +186,19 @@ class SettingsPage extends StatelessWidget {
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () =>
                           context.push(AppRoutes.cashFlow),
+                    ),
+                    const Divider(height: 1),
+                    ListTile(
+                      leading: const AppIcon(
+                        icon: HugeIcons.strokeRoundedHeartCheck,
+                        color: Colors.pink,
+                      ),
+                      title: const Text('Wellness Score'),
+                      subtitle:
+                          const Text('Financial health assessment'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () =>
+                          context.push(AppRoutes.wellnessScore),
                     ),
                   ],
                 ),

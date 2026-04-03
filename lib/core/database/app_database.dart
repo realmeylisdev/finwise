@@ -16,8 +16,11 @@ import 'package:finwise/core/database/daos/liabilities_dao.dart';
 import 'package:finwise/core/database/daos/net_worth_snapshots_dao.dart';
 import 'package:finwise/core/database/daos/debt_payments_dao.dart';
 import 'package:finwise/core/database/daos/debts_dao.dart';
+import 'package:finwise/core/database/daos/achievements_dao.dart';
+import 'package:finwise/core/database/daos/notifications_dao.dart';
 import 'package:finwise/core/database/daos/subscriptions_dao.dart';
 import 'package:finwise/core/database/daos/transactions_dao.dart';
+import 'package:finwise/core/database/daos/user_stats_dao.dart';
 import 'package:finwise/core/database/seed/default_categories.dart';
 import 'package:finwise/core/database/seed/default_currencies.dart';
 import 'package:finwise/core/database/tables/accounts_table.dart';
@@ -33,8 +36,12 @@ import 'package:finwise/core/database/tables/liabilities_table.dart';
 import 'package:finwise/core/database/tables/net_worth_snapshots_table.dart';
 import 'package:finwise/core/database/tables/debt_payments_table.dart';
 import 'package:finwise/core/database/tables/debts_table.dart';
+import 'package:finwise/core/database/tables/achievements_table.dart';
+import 'package:finwise/core/database/tables/notifications_table.dart';
 import 'package:finwise/core/database/tables/subscriptions_table.dart';
 import 'package:finwise/core/database/tables/transactions_table.dart';
+import 'package:finwise/core/database/tables/user_stats_table.dart';
+import 'package:finwise/features/achievements/domain/constants/achievement_definitions.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
@@ -58,6 +65,9 @@ part 'app_database.g.dart';
     Subscriptions,
     Debts,
     DebtPayments,
+    Achievements,
+    UserStats,
+    Notifications,
   ],
   daos: [
     CurrenciesDao,
@@ -75,6 +85,9 @@ part 'app_database.g.dart';
     SubscriptionsDao,
     DebtsDao,
     DebtPaymentsDao,
+    AchievementsDao,
+    UserStatsDao,
+    NotificationsDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -111,12 +124,21 @@ class AppDatabase extends _$AppDatabase {
             await m.createTable(debts);
             await m.createTable(debtPayments);
           }
+          if (from < 7) {
+            await m.createTable(achievements);
+            await m.createTable(userStats);
+            await _seedAchievements();
+          }
+          if (from < 8) {
+            await m.createTable(notifications);
+          }
         },
       );
 
   Future<void> _seedDefaultData() async {
     await _seedCurrencies();
     await _seedCategories();
+    await _seedAchievements();
   }
 
   Future<void> _seedCurrencies() async {
@@ -128,6 +150,24 @@ class AppDatabase extends _$AppDatabase {
           symbol: currency.symbol,
           decimalPlaces: Value(currency.decimalPlaces),
           isDefault: Value(currency.code == 'USD'),
+        ),
+      );
+    }
+  }
+
+  Future<void> _seedAchievements() async {
+    const uuid = Uuid();
+    final now = DateTime.now();
+
+    for (final def in achievementDefinitions) {
+      await into(achievements).insertOnConflictUpdate(
+        AchievementsCompanion.insert(
+          id: uuid.v4(),
+          type: def.type,
+          title: def.title,
+          description: def.description,
+          iconName: def.iconName,
+          createdAt: now,
         ),
       );
     }

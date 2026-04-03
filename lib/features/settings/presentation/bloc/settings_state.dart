@@ -7,6 +7,7 @@ class SettingsState extends Equatable {
     this.isOnboardingComplete = false,
     this.isSecurityEnabled = false,
     this.isPrivacyModeEnabled = false,
+    this.isChecklistDismissed = false,
   });
 
   final ThemeMode themeMode;
@@ -14,6 +15,7 @@ class SettingsState extends Equatable {
   final bool isOnboardingComplete;
   final bool isSecurityEnabled;
   final bool isPrivacyModeEnabled;
+  final bool isChecklistDismissed;
 
   SettingsState copyWith({
     ThemeMode? themeMode,
@@ -21,6 +23,7 @@ class SettingsState extends Equatable {
     bool? isOnboardingComplete,
     bool? isSecurityEnabled,
     bool? isPrivacyModeEnabled,
+    bool? isChecklistDismissed,
   }) {
     return SettingsState(
       themeMode: themeMode ?? this.themeMode,
@@ -28,6 +31,7 @@ class SettingsState extends Equatable {
       isOnboardingComplete: isOnboardingComplete ?? this.isOnboardingComplete,
       isSecurityEnabled: isSecurityEnabled ?? this.isSecurityEnabled,
       isPrivacyModeEnabled: isPrivacyModeEnabled ?? this.isPrivacyModeEnabled,
+      isChecklistDismissed: isChecklistDismissed ?? this.isChecklistDismissed,
     );
   }
 
@@ -37,6 +41,7 @@ class SettingsState extends Equatable {
         'isOnboardingComplete': isOnboardingComplete,
         'isSecurityEnabled': isSecurityEnabled,
         'isPrivacyModeEnabled': isPrivacyModeEnabled,
+        'isChecklistDismissed': isChecklistDismissed,
       };
 
   factory SettingsState.fromJson(Map<String, dynamic> json) {
@@ -49,6 +54,8 @@ class SettingsState extends Equatable {
       isSecurityEnabled: json['isSecurityEnabled'] as bool? ?? false,
       isPrivacyModeEnabled:
           json['isPrivacyModeEnabled'] as bool? ?? false,
+      isChecklistDismissed:
+          json['isChecklistDismissed'] as bool? ?? false,
     );
   }
 
@@ -59,5 +66,6 @@ class SettingsState extends Equatable {
         isOnboardingComplete,
         isSecurityEnabled,
         isPrivacyModeEnabled,
+        isChecklistDismissed,
       ];
 }

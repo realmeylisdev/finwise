@@ -1,6 +1,7 @@
 import 'package:finwise/core/di/injection.dart';
 import 'package:finwise/core/navigation/app_router.dart';
 import 'package:finwise/core/theme/app_theme.dart';
+import 'package:finwise/features/achievements/presentation/bloc/achievements_bloc.dart';
 import 'package:finwise/features/account/presentation/bloc/account_bloc.dart';
 import 'package:finwise/features/analytics/presentation/bloc/analytics_bloc.dart';
 import 'package:finwise/features/backup/presentation/bloc/backup_bloc.dart';
@@ -10,7 +11,10 @@ import 'package:finwise/features/cash_flow/presentation/bloc/cash_flow_bloc.dart
 import 'package:finwise/features/category_rule/presentation/bloc/category_rule_bloc.dart';
 import 'package:finwise/features/debt_payoff/presentation/bloc/debt_payoff_bloc.dart';
 import 'package:finwise/features/net_worth/presentation/bloc/net_worth_bloc.dart';
+import 'package:finwise/features/notifications/presentation/bloc/notifications_bloc.dart';
+import 'package:finwise/features/onboarding_checklist/presentation/bloc/checklist_bloc.dart';
 import 'package:finwise/features/subscription/presentation/bloc/subscription_bloc.dart';
+import 'package:finwise/features/wellness_score/presentation/bloc/wellness_score_bloc.dart';
 import 'package:finwise/features/recurring_detection/presentation/bloc/recurring_detection_bloc.dart';
 import 'package:finwise/features/category/presentation/bloc/category_bloc.dart';
 import 'package:finwise/features/dashboard/presentation/bloc/dashboard_bloc.dart';
@@ -87,6 +91,22 @@ class FinWiseApp extends StatelessWidget {
         BlocProvider(
           create: (_) =>
               getIt<DebtPayoffBloc>()..add(const DebtsLoaded()),
+        ),
+        BlocProvider(
+          create: (_) =>
+              getIt<AchievementsBloc>()..add(const AchievementsLoaded()),
+        ),
+        BlocProvider(
+          create: (_) =>
+              getIt<NotificationsBloc>()..add(const NotificationsLoaded()),
+        ),
+        BlocProvider(
+          create: (_) =>
+              getIt<ChecklistBloc>()..add(const ChecklistLoaded()),
+        ),
+        BlocProvider(
+          create: (_) =>
+              getIt<WellnessScoreBloc>()..add(const WellnessScoreLoaded()),
         ),
       ],
       child: BlocBuilder<SettingsBloc, SettingsState>(

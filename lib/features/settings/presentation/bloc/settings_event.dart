@@ -34,3 +34,7 @@ class SettingsSecurityToggled extends SettingsEvent {
 class SettingsPrivacyToggled extends SettingsEvent {
   const SettingsPrivacyToggled();
 }
+
+class SettingsChecklistDismissed extends SettingsEvent {
+  const SettingsChecklistDismissed();
+}

@@ -28,6 +28,16 @@ import '../../features/account/domain/usecases/get_accounts_usecase.dart'
 import '../../features/account/domain/usecases/update_account_usecase.dart'
     as _i688;
 import '../../features/account/presentation/bloc/account_bloc.dart' as _i708;
+import '../../features/achievements/data/datasources/achievement_local_datasource.dart'
+    as _i140;
+import '../../features/achievements/data/repositories/achievement_repository_impl.dart'
+    as _i445;
+import '../../features/achievements/domain/repositories/achievement_repository.dart'
+    as _i282;
+import '../../features/achievements/domain/usecases/check_achievements_usecase.dart'
+    as _i798;
+import '../../features/achievements/presentation/bloc/achievements_bloc.dart'
+    as _i411;
 import '../../features/analytics/presentation/bloc/analytics_bloc.dart' as _i70;
 import '../../features/backup/presentation/bloc/backup_bloc.dart' as _i894;
 import '../../features/bill_reminder/data/datasources/bill_reminder_local_datasource.dart'
@@ -110,8 +120,22 @@ import '../../features/net_worth/domain/repositories/net_worth_repository.dart'
     as _i569;
 import '../../features/net_worth/presentation/bloc/net_worth_bloc.dart'
     as _i486;
+import '../../features/notifications/data/datasources/notification_local_datasource.dart'
+    as _i372;
+import '../../features/notifications/data/repositories/notification_repository_impl.dart'
+    as _i361;
+import '../../features/notifications/domain/repositories/notification_repository.dart'
+    as _i367;
+import '../../features/notifications/domain/usecases/generate_weekly_digest_usecase.dart'
+    as _i386;
+import '../../features/notifications/presentation/bloc/notifications_bloc.dart'
+    as _i1041;
 import '../../features/onboarding/presentation/bloc/onboarding_bloc.dart'
     as _i792;
+import '../../features/onboarding_checklist/domain/usecases/get_checklist_usecase.dart'
+    as _i145;
+import '../../features/onboarding_checklist/presentation/bloc/checklist_bloc.dart'
+    as _i641;
 import '../../features/recurring_detection/domain/usecases/detect_recurring_usecase.dart'
     as _i579;
 import '../../features/recurring_detection/presentation/bloc/recurring_detection_bloc.dart'
@@ -163,8 +187,13 @@ import '../../features/transaction/domain/usecases/get_transactions_usecase.dart
     as _i794;
 import '../../features/transaction/presentation/bloc/transaction_bloc.dart'
     as _i356;
+import '../../features/wellness_score/domain/usecases/calculate_wellness_score_usecase.dart'
+    as _i817;
+import '../../features/wellness_score/presentation/bloc/wellness_score_bloc.dart'
+    as _i998;
 import '../database/app_database.dart' as _i982;
 import '../database/daos/accounts_dao.dart' as _i144;
+import '../database/daos/achievements_dao.dart' as _i1063;
 import '../database/daos/assets_dao.dart' as _i662;
 import '../database/daos/bill_reminders_dao.dart' as _i855;
 import '../database/daos/budgets_dao.dart' as _i152;
@@ -175,10 +204,12 @@ import '../database/daos/debt_payments_dao.dart' as _i781;
 import '../database/daos/debts_dao.dart' as _i744;
 import '../database/daos/liabilities_dao.dart' as _i878;
 import '../database/daos/net_worth_snapshots_dao.dart' as _i956;
+import '../database/daos/notifications_dao.dart' as _i496;
 import '../database/daos/savings_goals_dao.dart' as _i800;
 import '../database/daos/subscriptions_dao.dart' as _i434;
 import '../database/daos/transaction_splits_dao.dart' as _i658;
 import '../database/daos/transactions_dao.dart' as _i76;
+import '../database/daos/user_stats_dao.dart' as _i608;
 import 'register_module.dart' as _i291;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -247,6 +278,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i781.DebtPaymentsDao>(
       () => registerModule.debtPaymentsDao(gh<_i982.AppDatabase>()),
     );
+    gh.singleton<_i1063.AchievementsDao>(
+      () => registerModule.achievementsDao(gh<_i982.AppDatabase>()),
+    );
+    gh.singleton<_i608.UserStatsDao>(
+      () => registerModule.userStatsDao(gh<_i982.AppDatabase>()),
+    );
+    gh.singleton<_i496.NotificationsDao>(
+      () => registerModule.notificationsDao(gh<_i982.AppDatabase>()),
+    );
     gh.factory<_i212.BillReminderLocalDatasource>(
       () => _i212.BillReminderLocalDatasource(gh<_i855.BillRemindersDao>()),
     );
@@ -256,6 +296,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i878.LiabilitiesDao>(),
         gh<_i956.NetWorthSnapshotsDao>(),
       ),
+    );
+    gh.factory<_i372.NotificationLocalDatasource>(
+      () => _i372.NotificationLocalDatasource(gh<_i496.NotificationsDao>()),
     );
     gh.factory<_i680.SavingsGoalLocalDatasource>(
       () => _i680.SavingsGoalLocalDatasource(gh<_i800.SavingsGoalsDao>()),
@@ -268,6 +311,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i555.SavingsGoalRepository>(
       () => _i32.SavingsGoalRepositoryImpl(
         gh<_i680.SavingsGoalLocalDatasource>(),
+      ),
+    );
+    gh.factory<_i140.AchievementLocalDatasource>(
+      () => _i140.AchievementLocalDatasource(
+        gh<_i1063.AchievementsDao>(),
+        gh<_i608.UserStatsDao>(),
       ),
     );
     gh.factory<_i717.ContributeSavingsGoalUseCase>(
@@ -315,6 +364,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1067.AccountRepository>(
       () => _i857.AccountRepositoryImpl(gh<_i29.AccountLocalDatasource>()),
     );
+    gh.factory<_i367.NotificationRepository>(
+      () => _i361.NotificationRepositoryImpl(
+        gh<_i372.NotificationLocalDatasource>(),
+      ),
+    );
     gh.factory<_i330.TransactionLocalDatasource>(
       () => _i330.TransactionLocalDatasource(gh<_i76.TransactionsDao>()),
     );
@@ -335,6 +389,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i185.SubscriptionRepository>(
       () => _i331.SubscriptionRepositoryImpl(
         gh<_i174.SubscriptionLocalDatasource>(),
+      ),
+    );
+    gh.factory<_i386.GenerateWeeklyDigestUseCase>(
+      () => _i386.GenerateWeeklyDigestUseCase(
+        gh<_i76.TransactionsDao>(),
+        gh<_i367.NotificationRepository>(),
       ),
     );
     gh.factory<_i569.NetWorthRepository>(
@@ -373,6 +433,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i869.CategoryRepository>(
       () => _i528.CategoryRepositoryImpl(gh<_i759.CategoryLocalDatasource>()),
     );
+    gh.factory<_i282.AchievementRepository>(
+      () => _i445.AchievementRepositoryImpl(
+        gh<_i140.AchievementLocalDatasource>(),
+      ),
+    );
     gh.factory<_i858.SubscriptionBloc>(
       () => _i858.SubscriptionBloc(
         repository: gh<_i185.SubscriptionRepository>(),
@@ -394,6 +459,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i794.GetTransactionsUseCase>(
       () => _i794.GetTransactionsUseCase(gh<_i1022.TransactionRepository>()),
+    );
+    gh.factory<_i1041.NotificationsBloc>(
+      () => _i1041.NotificationsBloc(
+        repository: gh<_i367.NotificationRepository>(),
+        generateWeeklyDigestUseCase: gh<_i386.GenerateWeeklyDigestUseCase>(),
+      ),
     );
     gh.factory<_i708.AccountBloc>(
       () => _i708.AccountBloc(
@@ -476,6 +547,30 @@ extension GetItInjectableX on _i174.GetIt {
         categoryRepository: gh<_i869.CategoryRepository>(),
       ),
     );
+    gh.factory<_i817.CalculateWellnessScoreUseCase>(
+      () => _i817.CalculateWellnessScoreUseCase(
+        transactionRepository: gh<_i1022.TransactionRepository>(),
+        budgetRepository: gh<_i438.BudgetRepository>(),
+        debtPayoffRepository: gh<_i341.DebtPayoffRepository>(),
+      ),
+    );
+    gh.factory<_i798.CheckAchievementsUseCase>(
+      () => _i798.CheckAchievementsUseCase(gh<_i282.AchievementRepository>()),
+    );
+    gh.factory<_i411.AchievementsBloc>(
+      () => _i411.AchievementsBloc(
+        repository: gh<_i282.AchievementRepository>(),
+        checkAchievementsUseCase: gh<_i798.CheckAchievementsUseCase>(),
+      ),
+    );
+    gh.factory<_i145.GetChecklistUseCase>(
+      () => _i145.GetChecklistUseCase(
+        transactionRepository: gh<_i1022.TransactionRepository>(),
+        budgetRepository: gh<_i438.BudgetRepository>(),
+        savingsGoalRepository: gh<_i555.SavingsGoalRepository>(),
+        accountRepository: gh<_i1067.AccountRepository>(),
+      ),
+    );
     gh.factory<_i897.RecurringDetectionBloc>(
       () => _i897.RecurringDetectionBloc(
         detectRecurring: gh<_i579.DetectRecurringUseCase>(),
@@ -506,6 +601,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i651.UpdateBudgetUseCase>(
       () => _i651.UpdateBudgetUseCase(gh<_i438.BudgetRepository>()),
     );
+    gh.factory<_i641.ChecklistBloc>(
+      () => _i641.ChecklistBloc(
+        getChecklistUseCase: gh<_i145.GetChecklistUseCase>(),
+      ),
+    );
     gh.factory<_i652.DashboardBloc>(
       () => _i652.DashboardBloc(
         accountRepository: gh<_i1067.AccountRepository>(),
@@ -514,6 +614,12 @@ extension GetItInjectableX on _i174.GetIt {
         savingsGoalRepository: gh<_i555.SavingsGoalRepository>(),
         billReminderRepository: gh<_i998.BillReminderRepository>(),
         generateInsightsUseCase: gh<_i228.GenerateInsightsUseCase>(),
+      ),
+    );
+    gh.factory<_i998.WellnessScoreBloc>(
+      () => _i998.WellnessScoreBloc(
+        calculateWellnessScoreUseCase:
+            gh<_i817.CalculateWellnessScoreUseCase>(),
       ),
     );
     gh.factory<_i438.BudgetBloc>(

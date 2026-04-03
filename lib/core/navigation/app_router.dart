@@ -1,4 +1,5 @@
 import 'package:finwise/core/navigation/app_routes.dart';
+import 'package:finwise/features/achievements/presentation/pages/achievements_page.dart';
 import 'package:finwise/features/account/domain/entities/account_entity.dart';
 import 'package:finwise/features/account/presentation/pages/account_form_page.dart';
 import 'package:finwise/features/account/presentation/pages/accounts_page.dart';
@@ -15,6 +16,7 @@ import 'package:finwise/features/debt_payoff/presentation/pages/debt_form_page.d
 import 'package:finwise/features/debt_payoff/presentation/pages/debts_page.dart';
 import 'package:finwise/features/debt_payoff/presentation/pages/payoff_plan_page.dart';
 import 'package:finwise/features/net_worth/domain/entities/asset_entity.dart';
+import 'package:finwise/features/notifications/presentation/pages/notifications_page.dart';
 import 'package:finwise/features/net_worth/domain/entities/liability_entity.dart';
 import 'package:finwise/features/net_worth/presentation/pages/asset_form_page.dart';
 import 'package:finwise/features/net_worth/presentation/pages/liability_form_page.dart';
@@ -23,6 +25,7 @@ import 'package:finwise/features/recurring_detection/presentation/pages/recurrin
 import 'package:finwise/features/subscription/domain/entities/subscription_entity.dart';
 import 'package:finwise/features/subscription/presentation/pages/subscription_form_page.dart';
 import 'package:finwise/features/subscription/presentation/pages/subscriptions_page.dart';
+import 'package:finwise/features/wellness_score/presentation/pages/wellness_score_page.dart';
 import 'package:finwise/features/budget/presentation/pages/budget_detail_page.dart';
 import 'package:finwise/features/budget/presentation/pages/budget_form_page.dart';
 import 'package:finwise/features/budget/presentation/pages/budgets_page.dart';
@@ -127,6 +130,18 @@ class AppRouter {
         ),
       ),
       GoRoute(
+        path: AppRoutes.achievements,
+        name: 'achievements',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const AchievementsPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.notifications,
+        name: 'notifications',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const NotificationsPage(),
+      ),
+      GoRoute(
         path: AppRoutes.subscriptions,
         name: 'subscriptions',
         parentNavigatorKey: _rootNavigatorKey,
@@ -159,6 +174,12 @@ class AppRouter {
         name: 'payoff-plan',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const PayoffPlanPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.wellnessScore,
+        name: 'wellness-score',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const WellnessScorePage(),
       ),
 
       // Main shell with 5-tab bottom nav

@@ -12,8 +12,11 @@ import 'package:finwise/core/database/daos/liabilities_dao.dart';
 import 'package:finwise/core/database/daos/net_worth_snapshots_dao.dart';
 import 'package:finwise/core/database/daos/debt_payments_dao.dart';
 import 'package:finwise/core/database/daos/debts_dao.dart';
+import 'package:finwise/core/database/daos/achievements_dao.dart';
+import 'package:finwise/core/database/daos/notifications_dao.dart';
 import 'package:finwise/core/database/daos/subscriptions_dao.dart';
 import 'package:finwise/core/database/daos/transactions_dao.dart';
+import 'package:finwise/core/database/daos/user_stats_dao.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -72,4 +75,13 @@ abstract class RegisterModule {
 
   @singleton
   DebtPaymentsDao debtPaymentsDao(AppDatabase db) => db.debtPaymentsDao;
+
+  @singleton
+  AchievementsDao achievementsDao(AppDatabase db) => db.achievementsDao;
+
+  @singleton
+  UserStatsDao userStatsDao(AppDatabase db) => db.userStatsDao;
+
+  @singleton
+  NotificationsDao notificationsDao(AppDatabase db) => db.notificationsDao;
 }
